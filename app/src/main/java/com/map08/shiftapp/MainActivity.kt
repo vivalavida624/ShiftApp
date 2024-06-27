@@ -41,7 +41,7 @@ fun MainScreen() {
     if (showSplash) {
         SplashScreen()
     } else {
-        HomeScreen()
+        LoginScreen()
     }
 }
 
