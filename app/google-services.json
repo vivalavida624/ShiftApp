@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "518612570405",
+    "project_id": "shiftapp-d95cd",
+    "storage_bucket": "shiftapp-d95cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:518612570405:android:694d69df63d7a226418acc",
+        "android_client_info": {
+          "package_name": "com.map08.shiftapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1GeQ7cvcuqFLSoUA1SX_vf2iJhhiabKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
