@@ -32,7 +32,7 @@ import com.map08.shiftapp.AuthViewModel
 import com.map08.shiftapp.R
 
 @Composable
-fun EmployeeLoginPage(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
+fun ManagerSignupPage(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -55,11 +55,11 @@ fun EmployeeLoginPage(modifier: Modifier = Modifier, navController: NavControlle
         Image(painter = painterResource(id = R.drawable.logo), contentDescription = "Login Image",
             modifier = Modifier.size(200.dp))
 
-        Text(text = "Employee Portal", fontSize = 28.sp, fontWeight = FontWeight.Bold)
+        Text(text = "Manager Portal", fontSize = 28.sp, fontWeight = FontWeight.Bold)
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        Text(text = "Login to your account")
+        Text(text = "Signup Page", fontSize = 32.sp)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -87,26 +87,21 @@ fun EmployeeLoginPage(modifier: Modifier = Modifier, navController: NavControlle
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            authViewModel.login(email, password)
+            authViewModel.signup(email, password)
         }) {
-            Text(text = "Login")
+            Text(text = "Create Account")
 
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
         TextButton(onClick = {
-            navController.navigate("signup")
+            navController.navigate("login")
         }) {
-            Text(text = "Don't have account, Signup")
+            Text(text = "Already have account, login")
         }
 
-        Text(text = "OR")
 
-        TextButton(onClick = {
-            navController.navigate("manager-login")
-        }) {
-            Text(text = "Go to Manager Portal")
-        }
+
     }
 }
