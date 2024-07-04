@@ -30,9 +30,10 @@ import androidx.navigation.NavController
 import com.map08.shiftapp.AuthState
 import com.map08.shiftapp.AuthViewModel
 import com.map08.shiftapp.R
+import javax.net.ssl.ManagerFactoryParameters
 
 @Composable
-fun EmployeeLoginPage(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
+fun ManagerLoginPage(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -40,26 +41,30 @@ fun EmployeeLoginPage(modifier: Modifier = Modifier, navController: NavControlle
     val context = LocalContext.current
 
     LaunchedEffect(authState.value) {
-        when(authState.value){
+        when (authState.value) {
             is AuthState.Authenticated -> navController.navigate("home")
-            is AuthState.Error -> Toast.makeText(context,
-                (authState.value as AuthState.Error).message, Toast.LENGTH_SHORT).show()
+            is AuthState.Error -> Toast.makeText(
+                context,
+                (authState.value as AuthState.Error).message, Toast.LENGTH_SHORT
+            ).show()
+
             else -> Unit
         }
     }
 
-    Column(modifier = modifier.fillMaxSize(),
+    Column(
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment =  Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(painter = painterResource(id = R.drawable.logo), contentDescription = "Login Image",
-            modifier = Modifier.size(200.dp))
+        Image(
+            painter = painterResource(id = R.drawable.logo), contentDescription = "Login Image",
+            modifier = Modifier.size(200.dp)
+        )
 
-        Text(text = "Employee Portal", fontSize = 28.sp, fontWeight = FontWeight.Bold)
+        Text(text = "Manager Portal", fontSize = 28.sp, fontWeight = FontWeight.Bold)
 
         Spacer(modifier = Modifier.height(4.dp))
-
-        Text(text = "Login to your account")
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -96,7 +101,7 @@ fun EmployeeLoginPage(modifier: Modifier = Modifier, navController: NavControlle
         Spacer(modifier = Modifier.height(8.dp))
 
         TextButton(onClick = {
-            navController.navigate("signup")
+            navController.navigate("manager-signup")
         }) {
             Text(text = "Don't have account, Signup")
         }
@@ -104,7 +109,7 @@ fun EmployeeLoginPage(modifier: Modifier = Modifier, navController: NavControlle
         Text(text = "OR")
 
         TextButton(onClick = {
-            navController.navigate("manager-login")
+            navController.navigate("login")
         }) {
             Text(text = "Go to Manager Portal")
         }

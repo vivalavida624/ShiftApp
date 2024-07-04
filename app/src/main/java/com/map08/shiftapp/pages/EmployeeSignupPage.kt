@@ -100,5 +100,7 @@ fun EmployeeSignupPage(modifier: Modifier = Modifier, navController: NavControll
         }) {
             Text(text = "Already have account, login")
         }
+
+
     }
 }
