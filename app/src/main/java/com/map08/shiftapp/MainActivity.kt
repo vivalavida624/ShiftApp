@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,9 +26,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val authViewModel: AuthViewModel by viewModels()
         setContent {
             ShiftAppTheme {
-                MainScreen()
+//                MainScreen()
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    MyAppNavigation(modifier = Modifier.padding(innerPadding), authViewModel = authViewModel)
+                }
             }
         }
     }
@@ -36,6 +41,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     var showSplash by remember { mutableStateOf(true) }
+
 
     LaunchedEffect(key1 = true) {
         delay(3000)
@@ -62,28 +68,6 @@ fun SplashScreen() {
     }
 }
 
-@Composable
-fun HomeScreen() {
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        Greeting(
-            name = "Android",
-            modifier = Modifier.padding(innerPadding)
-        )
-    }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ShiftAppTheme {
-        Greeting("Android")
-    }
-}
+
