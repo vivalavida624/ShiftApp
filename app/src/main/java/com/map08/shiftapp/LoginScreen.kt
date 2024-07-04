@@ -31,7 +31,7 @@ fun LoginScreen(){
         Image(painter = painterResource(id = R.drawable.logo), contentDescription = "Login Image",
             modifier = Modifier.size(200.dp))
 
-        Text(text = "Welcome Back", fontSize = 28.sp, fontWeight = FontWeight.Bold)
+        Text(text = "Employee Portal", fontSize = 28.sp, fontWeight = FontWeight.Bold)
 
         Spacer(modifier = Modifier.height(4.dp))
 
