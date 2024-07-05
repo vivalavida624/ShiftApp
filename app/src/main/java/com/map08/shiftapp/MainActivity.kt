@@ -11,14 +11,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
 import com.map08.shiftapp.ui.theme.ShiftAppTheme
 import kotlinx.coroutines.delay
 
@@ -29,9 +28,9 @@ class MainActivity : ComponentActivity() {
         val authViewModel: AuthViewModel by viewModels()
         setContent {
             ShiftAppTheme {
-//                MainScreen()
+                val navController = rememberNavController()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyAppNavigation(modifier = Modifier.padding(innerPadding), authViewModel = authViewModel)
+                    MyAppNavigation(modifier = Modifier.padding(innerPadding), navController = navController, authViewModel = authViewModel)
                 }
             }
         }
@@ -41,7 +40,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     var showSplash by remember { mutableStateOf(true) }
-
 
     LaunchedEffect(key1 = true) {
         delay(3000)
@@ -64,10 +62,7 @@ fun SplashScreen() {
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "App Logo",
-            modifier = Modifier.size(200.dp))
+            modifier = Modifier.size(200.dp)
+        )
     }
 }
-
-
-
-
