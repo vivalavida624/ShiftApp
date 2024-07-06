@@ -18,26 +18,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.map08.shiftapp.ui.theme.ShiftAppTheme
+import com.map08.shiftapp.viewmodels.EmployeeProfileViewModel
 import kotlinx.coroutines.delay
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val authViewModel: AuthViewModel by viewModels()
+        val employeeProfileViewModel: EmployeeProfileViewModel by viewModels()
         setContent {
             ShiftAppTheme {
-                val navController = rememberNavController()
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyAppNavigation(modifier = Modifier.padding(innerPadding), navController = navController, authViewModel = authViewModel)
-                }
+                MainContent(authViewModel, employeeProfileViewModel)
             }
         }
     }
 }
 
 @Composable
-fun MainScreen() {
+fun MainContent(authViewModel: AuthViewModel, employeeProfileViewModel: EmployeeProfileViewModel) {
+    val navController = rememberNavController()
+    val currentUser = FirebaseAuth.getInstance().currentUser
     var showSplash by remember { mutableStateOf(true) }
 
     LaunchedEffect(key1 = true) {
@@ -48,7 +50,26 @@ fun MainScreen() {
     if (showSplash) {
         SplashScreen()
     } else {
-        LoginScreen()
+        if (currentUser != null) {
+            LaunchedEffect(currentUser) {
+                employeeProfileViewModel.fetchEmployeeProfile(currentUser.uid)
+            }
+            val employee by employeeProfileViewModel.employee.collectAsState()
+
+            LaunchedEffect(employee) {
+                if (employee == null) {
+                    navController.navigate("createProfile")
+                } else {
+                    navController.navigate("home")
+                }
+            }
+        } else {
+            navController.navigate("login")
+        }
+
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            MyAppNavigation(modifier = Modifier.padding(innerPadding), navController = navController, authViewModel = authViewModel)
+        }
     }
 }
 

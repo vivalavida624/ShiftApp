@@ -41,7 +41,10 @@ fun EmployeeSignupPage(modifier: Modifier = Modifier, navController: NavControll
 
     LaunchedEffect(authState.value) {
         when(authState.value){
-            is AuthState.Authenticated -> navController.navigate("home")
+            is AuthState.Authenticated -> {
+                // 注册成功后导航到创建个人资料页面
+                navController.navigate("createProfile")
+            }
             is AuthState.Error -> Toast.makeText(context,
                 (authState.value as AuthState.Error).message, Toast.LENGTH_SHORT).show()
             else -> Unit
@@ -100,7 +103,5 @@ fun EmployeeSignupPage(modifier: Modifier = Modifier, navController: NavControll
         }) {
             Text(text = "Already have account, login")
         }
-
-
     }
 }

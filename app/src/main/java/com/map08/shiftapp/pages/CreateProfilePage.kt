@@ -9,6 +9,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import com.map08.shiftapp.models.Employee
 import com.map08.shiftapp.viewmodels.EmployeeProfileViewModel
 
@@ -48,7 +49,7 @@ fun CreateProfilePage(modifier: Modifier = Modifier, navController: NavControlle
         Button(
             onClick = {
                 val newEmployee = Employee(
-                    id = "",
+                    id = FirebaseAuth.getInstance().currentUser?.uid ?: "",
                     name = name,
                     age = age.toInt(),
                     country = country,
@@ -65,4 +66,3 @@ fun CreateProfilePage(modifier: Modifier = Modifier, navController: NavControlle
         }
     }
 }
-
