@@ -18,7 +18,7 @@ class EmployeeProfileViewModel : ViewModel() {
         fetchEmployeeProfile()
     }
 
-    fun fetchEmployeeProfile() { // Change to public
+    fun fetchEmployeeProfile() {
         viewModelScope.launch {
             try {
                 db.collection("employees").document("cHgco7EfjuoPGGPZcVmh") // 使用实际文档ID
@@ -40,14 +40,37 @@ class EmployeeProfileViewModel : ViewModel() {
         }
     }
 
-    fun updateEmployeeProfile(updatedEmployee: Employee) {
-        db.collection("employees").document("cHgco7EfjuoPGGPZcVmh")
-            .set(updatedEmployee)
-            .addOnSuccessListener {
-                fetchEmployeeProfile()
+    fun updateEmployeeProfile(employee: Employee) {
+        viewModelScope.launch {
+            try {
+                db.collection("employees").document(employee.id)
+                    .set(employee)
+                    .addOnSuccessListener {
+                        _employee.value = employee
+                    }
+                    .addOnFailureListener {
+                        // handle failure
+                    }
+            } catch (e: Exception) {
+                // handle exception
             }
-            .addOnFailureListener {
-                // Handle failure
+        }
+    }
+
+    fun createEmployeeProfile(employee: Employee) {
+        viewModelScope.launch {
+            try {
+                db.collection("employees").add(employee)
+                    .addOnSuccessListener { documentReference ->
+                        employee.id = documentReference.id
+                        _employee.value = employee
+                    }
+                    .addOnFailureListener {
+                        // handle failure
+                    }
+            } catch (e: Exception) {
+                // handle exception
             }
+        }
     }
 }
