@@ -5,12 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.map08.shiftapp.pages.EmployeeHomePage
-import com.map08.shiftapp.pages.EmployeeLoginPage
-import com.map08.shiftapp.pages.EmployeeSignupPage
-import com.map08.shiftapp.pages.ManagerHomePage
-import com.map08.shiftapp.pages.ManagerLoginPage
-import com.map08.shiftapp.pages.ManagerSignupPage
+import com.map08.shiftapp.pages.*
 
 @Composable
 fun MyAppNavigation(modifier: Modifier = Modifier, navController: NavHostController, authViewModel: AuthViewModel) {
@@ -23,6 +18,9 @@ fun MyAppNavigation(modifier: Modifier = Modifier, navController: NavHostControl
         }
         composable("home") {
             EmployeeHomePage(modifier, navController, authViewModel)
+        }
+        composable("editProfile") {
+            EmployeeEditPage(modifier, navController)
         }
         composable("manager-login") {
             ManagerLoginPage(modifier, navController, authViewModel)

@@ -18,7 +18,7 @@ class EmployeeProfileViewModel : ViewModel() {
         fetchEmployeeProfile()
     }
 
-    private fun fetchEmployeeProfile() {
+    fun fetchEmployeeProfile() { // Change to public
         viewModelScope.launch {
             try {
                 db.collection("employees").document("cHgco7EfjuoPGGPZcVmh") // 使用实际文档ID
@@ -38,5 +38,16 @@ class EmployeeProfileViewModel : ViewModel() {
                 _employee.value = null
             }
         }
+    }
+
+    fun updateEmployeeProfile(updatedEmployee: Employee) {
+        db.collection("employees").document("cHgco7EfjuoPGGPZcVmh")
+            .set(updatedEmployee)
+            .addOnSuccessListener {
+                fetchEmployeeProfile()
+            }
+            .addOnFailureListener {
+                // Handle failure
+            }
     }
 }
