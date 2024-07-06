@@ -10,11 +10,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
+import com.map08.shiftapp.LocalAuthViewModel
+import com.map08.shiftapp.LocalEmployeeProfileViewModel
+import com.map08.shiftapp.LocalNavController
 import com.map08.shiftapp.models.Employee
 import com.map08.shiftapp.viewmodels.EmployeeProfileViewModel
 
 @Composable
-fun CreateProfilePage(modifier: Modifier = Modifier, navController: NavController, viewModel: EmployeeProfileViewModel) {
+fun CreateProfilePage() {
+
+//    val authViewModel = LocalAuthViewModel.current
+    val employeeProfileViewModel = LocalEmployeeProfileViewModel.current
+//    val employee by employeeProfileViewModel.employee.collectAsState(initial = null)
+    val navController = LocalNavController.current
+
     var name by remember { mutableStateOf("") }
     var age by remember { mutableStateOf("") }
     var country by remember { mutableStateOf("") }
@@ -24,7 +33,7 @@ fun CreateProfilePage(modifier: Modifier = Modifier, navController: NavControlle
     var phone by remember { mutableStateOf("") }
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
@@ -58,7 +67,7 @@ fun CreateProfilePage(modifier: Modifier = Modifier, navController: NavControlle
                     email = email,
                     phone = phone
                 )
-                viewModel.createEmployeeProfile(newEmployee)
+                employeeProfileViewModel.createEmployeeProfile(newEmployee)
                 navController.navigate("home")
             }
         ) {

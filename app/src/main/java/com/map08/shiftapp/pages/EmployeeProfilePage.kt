@@ -28,79 +28,73 @@ import com.map08.shiftapp.R
 import com.map08.shiftapp.models.Employee
 import com.map08.shiftapp.viewmodels.EmployeeProfileViewModel
 
-
-
 @Composable
-fun EmployeeProfilePage() {
-    val employee by viewModel.employee.collectAsState()
+    fun EmployeeProfilePage() {
 
-    if (employee != null) {
-        ProfileContent()
-    } else {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
+        val authViewModel = LocalAuthViewModel.current
+        val employeeProfileViewModel = LocalEmployeeProfileViewModel.current
+        val employee by employeeProfileViewModel.employee.collectAsState(initial = null)
+        val navController = LocalNavController.current
+
+        if (employee != null) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0XFF1976D2))
+                    .padding(top = 60.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_profile_placeholder),
+                    contentDescription = "Profile Picture",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(160.dp)
+                        .clip(RoundedCornerShape(100.dp))
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Profile",
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+                )
+                Text(text = "Name: ${employee?.name ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
+                Text(text = "Age: ${employee?.age ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
+                Text(text = "Country: ${employee?.country ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
+                Text(text = "City: ${employee?.city ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
+                Text(text = "Hobbies: ${employee?.hobbies ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
+                Text(text = "Email: ${employee?.email ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
+                Text(text = "Phone: ${employee?.phone ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Button(
+                    onClick = {
+                        navController.navigate("editProfile")
+                    }
+                ) {
+                    Text(text = "Edit Profile")
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = {
+                        navController.navigate("createProfile")
+                    }
+                ) {
+                    Text(text = "Create Profile")
+                }
+            }
+        } else {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
         }
     }
-}
-
-@Composable
-fun ProfileContent() {
-    val navController = LocalNavController.current
-    val authViewModel = LocalAuthViewModel.current
-    val employeeProfileViewModel = LocalEmployeeProfileViewModel.current
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0XFF1976D2))
-            .padding(top = 60.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_profile_placeholder),
-            contentDescription = "Profile Picture",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(160.dp)
-                .clip(RoundedCornerShape(100.dp))
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = "Profile",
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
-        )
-        Text(text = "Name: ${employee.name}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
-        Text(text = "Age: ${employee.age}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
-        Text(text = "Country: ${employee.country}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
-        Text(text = "City: ${employee.city}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
-        Text(text = "Hobbies: ${employee.hobbies}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
-        Text(text = "Email: ${employee.email}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
-        Text(text = "Phone: ${employee.phone}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Button(
-            onClick = {
-                navController.navigate("editProfile")
-            }
-        ) {
-            Text(text = "Edit Profile")
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = {
-                navController.navigate("createProfile")
-            }
-        ) {
-            Text(text = "Create Profile")
-        }
-    }
-}

@@ -18,8 +18,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.map08.shiftapp.pages.EmployeeProfilePage
 import com.map08.shiftapp.ui.theme.ShiftAppTheme
 import com.map08.shiftapp.viewmodels.AuthViewModel
+import com.map08.shiftapp.viewmodels.EmployeeProfileViewModel
 import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
@@ -31,13 +33,15 @@ class MainActivity : ComponentActivity() {
             ShiftAppTheme {
                 val navController = rememberNavController()
                 val authViewModel = viewModel<AuthViewModel>()
+                val employeeProfileViewModel = viewModel<EmployeeProfileViewModel>()
 
                 CompositionLocalProvider(
                     LocalAuthViewModel provides authViewModel,
                     LocalNavController provides navController,
+                    LocalEmployeeProfileViewModel provides employeeProfileViewModel
                     ) {
                     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                        Navigation(modifier = Modifier.padding(innerPadding))
+                        Navigation()
                     }
                 }
             }

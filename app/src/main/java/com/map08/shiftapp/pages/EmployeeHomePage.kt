@@ -21,8 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.map08.shiftapp.viewmodels.AuthViewModel
 import com.map08.shiftapp.EmployeeNavItem
 import com.map08.shiftapp.LocalAuthViewModel
 import com.map08.shiftapp.LocalNavController
@@ -40,7 +38,7 @@ fun EmployeeHomePage() {
         EmployeeNavItem("Profile", Icons.Default.Person),
     )
 
-    var selectedIndex by remember { mutableIntStateOf(0) }
+    var selectedIndex by remember { mutableIntStateOf(1) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -81,13 +79,13 @@ fun EmployeeHomePage() {
                 }
             }
         }
-    ) {
-        ContentScreen( selectedIndex)
+    ) { innerPadding ->
+        EmployeeContentScreen(modifier = Modifier.padding(innerPadding), selectedIndex)
     }
 }
 
 @Composable
-fun ContentScreen( selectedIndex: Int) {
+fun EmployeeContentScreen( modifier: Modifier,selectedIndex: Int) {
     when (selectedIndex) {
         0 -> EmployeeTimePage()
         1 -> Text(text = "Home Content", modifier = Modifier.fillMaxSize())

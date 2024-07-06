@@ -9,9 +9,8 @@ import com.map08.shiftapp.pages.*
 import com.map08.shiftapp.viewmodels.AuthViewModel
 
 @Composable
-fun Navigation(
-    modifier: Modifier = Modifier
-) {
+fun Navigation() {
+
     val navController = LocalNavController.current
     val authViewModel = LocalAuthViewModel.current
 
@@ -25,9 +24,12 @@ fun Navigation(
         composable("home") {
             EmployeeHomePage()
         }
-//        composable("editProfile") {
-//            EmployeeEditPage()
-//        }
+        composable("profile") {
+            EmployeeProfilePage()
+        }
+        composable("editProfile") {
+            EmployeeEditPage()
+        }
         composable("manager-login") {
             ManagerLoginPage()
         }
@@ -37,5 +39,6 @@ fun Navigation(
         composable("manager-home") {
             ManagerHomePage()
         }
+
     }
 }
