@@ -27,12 +27,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.map08.shiftapp.AuthState
-import com.map08.shiftapp.AuthViewModel
+import com.map08.shiftapp.LocalAuthViewModel
+import com.map08.shiftapp.LocalNavController
+import com.map08.shiftapp.viewmodels.AuthState
+import com.map08.shiftapp.viewmodels.AuthViewModel
 import com.map08.shiftapp.R
 
 @Composable
-fun EmployeeSignupPage(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
+fun EmployeeSignupPage() {
+
+    val navController = LocalNavController.current
+    val authViewModel = LocalAuthViewModel.current
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -48,7 +53,7 @@ fun EmployeeSignupPage(modifier: Modifier = Modifier, navController: NavControll
         }
     }
 
-    Column(modifier = modifier.fillMaxSize(),
+    Column(modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment =  Alignment.CenterHorizontally
     ) {

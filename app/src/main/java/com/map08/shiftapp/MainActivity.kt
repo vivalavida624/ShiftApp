@@ -16,20 +16,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.map08.shiftapp.ui.theme.ShiftAppTheme
+import com.map08.shiftapp.viewmodels.AuthViewModel
 import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val authViewModel: AuthViewModel by viewModels()
+
         setContent {
             ShiftAppTheme {
                 val navController = rememberNavController()
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyAppNavigation(modifier = Modifier.padding(innerPadding), navController = navController, authViewModel = authViewModel)
+                val authViewModel = viewModel<AuthViewModel>()
+
+                CompositionLocalProvider(
+                    LocalAuthViewModel provides authViewModel,
+                    LocalNavController provides navController,
+                    ) {
+                    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                        Navigation(modifier = Modifier.padding(innerPadding))
+                    }
                 }
             }
         }
