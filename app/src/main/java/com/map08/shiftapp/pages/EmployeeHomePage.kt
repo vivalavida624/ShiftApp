@@ -81,16 +81,16 @@ fun EmployeeHomePage() {
                 }
             }
         }
-    ) { innerPadding ->
-        ContentScreen(modifier = Modifier.padding(innerPadding), navController, selectedIndex)
+    ) {
+        ContentScreen( selectedIndex)
     }
 }
 
 @Composable
-fun ContentScreen(modifier: Modifier = Modifier, navController: NavController, selectedIndex: Int) {
+fun ContentScreen( selectedIndex: Int) {
     when (selectedIndex) {
         0 -> EmployeeTimePage()
-        1 -> Text(text = "Home Content", modifier = modifier.fillMaxSize())
-        2 -> EmployeeProfilePage(modifier = modifier, navController = navController)
+        1 -> Text(text = "Home Content", modifier = Modifier.fillMaxSize())
+        2 -> EmployeeProfilePage()
     }
 }

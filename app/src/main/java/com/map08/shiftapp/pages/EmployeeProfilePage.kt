@@ -21,19 +21,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.map08.shiftapp.LocalAuthViewModel
+import com.map08.shiftapp.LocalEmployeeProfileViewModel
+import com.map08.shiftapp.LocalNavController
 import com.map08.shiftapp.R
 import com.map08.shiftapp.models.Employee
 import com.map08.shiftapp.viewmodels.EmployeeProfileViewModel
 
+
+
 @Composable
-fun EmployeeProfilePage(modifier: Modifier = Modifier, viewModel: EmployeeProfileViewModel = viewModel(), navController: NavController) {
+fun EmployeeProfilePage() {
     val employee by viewModel.employee.collectAsState()
 
     if (employee != null) {
-        ProfileContent(modifier, employee!!, navController)
+        ProfileContent()
     } else {
         Box(
-            modifier = modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
@@ -42,9 +47,12 @@ fun EmployeeProfilePage(modifier: Modifier = Modifier, viewModel: EmployeeProfil
 }
 
 @Composable
-fun ProfileContent(modifier: Modifier = Modifier, employee: Employee, navController: NavController) {
+fun ProfileContent() {
+    val navController = LocalNavController.current
+    val authViewModel = LocalAuthViewModel.current
+    val employeeProfileViewModel = LocalEmployeeProfileViewModel.current
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(Color(0XFF1976D2))
             .padding(top = 60.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
