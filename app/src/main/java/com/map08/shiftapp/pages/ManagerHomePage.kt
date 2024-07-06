@@ -22,13 +22,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.map08.shiftapp.AuthViewModel
+import com.map08.shiftapp.LocalAuthViewModel
+import com.map08.shiftapp.LocalNavController
+import com.map08.shiftapp.viewmodels.AuthViewModel
 import com.map08.shiftapp.ManagerNavItem
 import androidx.compose.ui.Modifier.Companion as Modifier
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ManagerHomePage(modifier: androidx.compose.ui.Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
+fun ManagerHomePage() {
+
+    val navController = LocalNavController.current
+    val authViewModel = LocalAuthViewModel.current
 
     val managerNavItemList = listOf(
         ManagerNavItem("Home", Icons.Default.Home),
@@ -81,15 +86,15 @@ fun ManagerHomePage(modifier: androidx.compose.ui.Modifier = Modifier, navContro
             }
         }
     ){ innerPadding ->
-        ContentScreen(modifier = Modifier.padding(innerPadding), navController, authViewModel,selectedIndex)
+        ContentScreen(modifier = Modifier.padding(innerPadding), navController,selectedIndex)
 
     }
 }
 
 @Composable
-fun ContentScreen(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel, selectedIndex: Int) {
+fun ContentScreen(modifier: Modifier = Modifier, navController: NavController, selectedIndex: Int) {
     when(selectedIndex) {
-        0-> ManagerHomePage(modifier, navController, authViewModel)
+        0-> ManagerHomePage()
         1-> ManagerTimePage()
         2-> ManagerListPage()
         3-> ManagerProfilePage()

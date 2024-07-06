@@ -26,18 +26,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.map08.shiftapp.AuthState
-import com.map08.shiftapp.AuthViewModel
+import com.map08.shiftapp.LocalAuthViewModel
+import com.map08.shiftapp.LocalNavController
 import com.map08.shiftapp.R
+import com.map08.shiftapp.viewmodels.AuthState
 
 @Composable
-fun EmployeeLoginPage(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
+fun EmployeeLoginPage() {
+
+    val navController = LocalNavController.current
+    val authViewModel = LocalAuthViewModel.current
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val authState = authViewModel.authState.observeAsState()
     val context = LocalContext.current
+
 
     LaunchedEffect(authState.value) {
         when(authState.value){
@@ -48,7 +52,7 @@ fun EmployeeLoginPage(modifier: Modifier = Modifier, navController: NavControlle
         }
     }
 
-    Column(modifier = modifier.fillMaxSize(),
+    Column(modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment =  Alignment.CenterHorizontally
     ) {

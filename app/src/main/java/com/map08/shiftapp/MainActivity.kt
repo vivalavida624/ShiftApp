@@ -16,30 +16,37 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.map08.shiftapp.ui.theme.ShiftAppTheme
-import com.map08.shiftapp.viewmodels.EmployeeProfileViewModel
+import com.map08.shiftapp.viewmodels.AuthViewModel
 import kotlinx.coroutines.delay
-import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val authViewModel: AuthViewModel by viewModels()
-        val employeeProfileViewModel: EmployeeProfileViewModel by viewModels()
+
         setContent {
             ShiftAppTheme {
-                MainContent(authViewModel, employeeProfileViewModel)
+                val navController = rememberNavController()
+                val authViewModel = viewModel<AuthViewModel>()
+
+                CompositionLocalProvider(
+                    LocalAuthViewModel provides authViewModel,
+                    LocalNavController provides navController,
+                    ) {
+                    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                        Navigation(modifier = Modifier.padding(innerPadding))
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-fun MainContent(authViewModel: AuthViewModel, employeeProfileViewModel: EmployeeProfileViewModel) {
-    val navController = rememberNavController()
-    val currentUser = FirebaseAuth.getInstance().currentUser
+fun MainScreen() {
     var showSplash by remember { mutableStateOf(true) }
 
     LaunchedEffect(key1 = true) {
@@ -50,26 +57,7 @@ fun MainContent(authViewModel: AuthViewModel, employeeProfileViewModel: Employee
     if (showSplash) {
         SplashScreen()
     } else {
-        if (currentUser != null) {
-            LaunchedEffect(currentUser) {
-                employeeProfileViewModel.fetchEmployeeProfile(currentUser.uid)
-            }
-            val employee by employeeProfileViewModel.employee.collectAsState()
-
-            LaunchedEffect(employee) {
-                if (employee == null) {
-                    navController.navigate("createProfile")
-                } else {
-                    navController.navigate("home")
-                }
-            }
-        } else {
-            navController.navigate("login")
-        }
-
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            MyAppNavigation(modifier = Modifier.padding(innerPadding), navController = navController, authViewModel = authViewModel)
-        }
+        LoginScreen()
     }
 }
 
