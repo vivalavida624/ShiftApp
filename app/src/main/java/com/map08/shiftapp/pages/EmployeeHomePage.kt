@@ -19,17 +19,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.map08.shiftapp.AuthViewModel
+import com.map08.shiftapp.viewmodels.AuthViewModel
 import com.map08.shiftapp.EmployeeNavItem
-import com.map08.shiftapp.ui.theme.ShiftAppTheme
+import com.map08.shiftapp.LocalAuthViewModel
+import com.map08.shiftapp.LocalNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EmployeeHomePage(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
+fun EmployeeHomePage() {
+
+    val navController = LocalNavController.current
+    val authViewModel = LocalAuthViewModel.current
+
     val employeeNavItemList = listOf(
         EmployeeNavItem("Time", Icons.Default.DateRange),
         EmployeeNavItem("Home", Icons.Default.Home),
@@ -43,7 +47,7 @@ fun EmployeeHomePage(modifier: Modifier = Modifier, navController: NavController
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Employee Home", fontSize = 20.sp)
+                    Text(text = "Employee", fontSize = 20.sp)
                 },
                 actions = {
                     TextButton(
@@ -78,12 +82,12 @@ fun EmployeeHomePage(modifier: Modifier = Modifier, navController: NavController
             }
         }
     ) { innerPadding ->
-        ContentScreen(modifier = Modifier.padding(innerPadding), navController, authViewModel, selectedIndex)
+        ContentScreen(modifier = Modifier.padding(innerPadding), navController, selectedIndex)
     }
 }
 
 @Composable
-fun ContentScreen(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel, selectedIndex: Int) {
+fun ContentScreen(modifier: Modifier = Modifier, navController: NavController, selectedIndex: Int) {
     when (selectedIndex) {
         0 -> EmployeeTimePage()
         1 -> Text(text = "Home Content", modifier = modifier.fillMaxSize())
