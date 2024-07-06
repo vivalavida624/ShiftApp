@@ -30,7 +30,6 @@ import com.map08.shiftapp.ui.theme.ShiftAppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmployeeHomePage(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
-
     val employeeNavItemList = listOf(
         EmployeeNavItem("Time", Icons.Default.DateRange),
         EmployeeNavItem("Home", Icons.Default.Home),
@@ -41,7 +40,6 @@ fun EmployeeHomePage(modifier: Modifier = Modifier, navController: NavController
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-
         topBar = {
             TopAppBar(
                 title = {
@@ -70,7 +68,7 @@ fun EmployeeHomePage(modifier: Modifier = Modifier, navController: NavController
                             selectedIndex = index
                         },
                         icon = {
-                                Icon(imageVector = employeeNavItem.icon, contentDescription = "Icon")
+                            Icon(imageVector = employeeNavItem.icon, contentDescription = "Icon")
                         },
                         label = {
                             Text(text = employeeNavItem.label)
@@ -79,19 +77,16 @@ fun EmployeeHomePage(modifier: Modifier = Modifier, navController: NavController
                 }
             }
         }
-    ){ innerPadding ->
-        ContentScreen(modifier = Modifier.padding(innerPadding), navController, authViewModel,selectedIndex)
-        
+    ) { innerPadding ->
+        ContentScreen(modifier = Modifier.padding(innerPadding), navController, authViewModel, selectedIndex)
     }
 }
 
 @Composable
-fun ContentScreen(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel,selectedIndex: Int) {
-    when(selectedIndex) {
-        0-> EmployeeTimePage()
-//        1-> EmployeeHomePage(modifier, navController, authViewModel)
-        2-> EmployeeProfilePage()
+fun ContentScreen(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel, selectedIndex: Int) {
+    when (selectedIndex) {
+        0 -> EmployeeTimePage()
+        1 -> Text(text = "Home Content", modifier = modifier.fillMaxSize())
+        2 -> EmployeeProfilePage(modifier = modifier, navController = navController)
     }
-
-
 }

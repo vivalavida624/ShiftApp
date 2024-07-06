@@ -3,7 +3,8 @@ package com.map08.shiftapp.pages
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,16 +20,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.map08.shiftapp.R
 import com.map08.shiftapp.models.Employee
 import com.map08.shiftapp.viewmodels.EmployeeProfileViewModel
 
 @Composable
-fun EmployeeProfilePage(modifier: Modifier = Modifier, viewModel: EmployeeProfileViewModel = viewModel()) {
+fun EmployeeProfilePage(modifier: Modifier = Modifier, viewModel: EmployeeProfileViewModel = viewModel(), navController: NavController) {
     val employee by viewModel.employee.collectAsState()
 
     if (employee != null) {
-        ProfileContent(modifier, employee!!)
+        ProfileContent(modifier, employee!!, navController)
     } else {
         Box(
             modifier = modifier.fillMaxSize(),
@@ -40,12 +42,12 @@ fun EmployeeProfilePage(modifier: Modifier = Modifier, viewModel: EmployeeProfil
 }
 
 @Composable
-fun ProfileContent(modifier: Modifier = Modifier, employee: Employee) {
+fun ProfileContent(modifier: Modifier = Modifier, employee: Employee, navController: NavController) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(Color(0XFF1976D2))
-            .padding(top = 130.dp, start = 16.dp, end = 16.dp, bottom = 16.dp), // Adjust top padding to avoid overlap
+            .padding(top = 60.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -54,9 +56,8 @@ fun ProfileContent(modifier: Modifier = Modifier, employee: Employee) {
             contentDescription = "Profile Picture",
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .size(120.dp)
-                .aspectRatio(0.75f) // Aspect ratio to make the image oval
-                .clip(CircleShape)
+                .size(160.dp)
+                .clip(RoundedCornerShape(100.dp))
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
@@ -73,5 +74,15 @@ fun ProfileContent(modifier: Modifier = Modifier, employee: Employee) {
         Text(text = "Hobbies: ${employee.hobbies}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
         Text(text = "Email: ${employee.email}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
         Text(text = "Phone: ${employee.phone}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Button(
+            onClick = {
+                navController.navigate("editProfile")
+            }
+        ) {
+            Text(text = "Edit Profile")
+        }
     }
 }
