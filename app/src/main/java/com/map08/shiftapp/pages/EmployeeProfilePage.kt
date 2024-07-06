@@ -84,5 +84,15 @@ fun ProfileContent(modifier: Modifier = Modifier, employee: Employee, navControl
         ) {
             Text(text = "Edit Profile")
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                navController.navigate("createProfile")
+            }
+        ) {
+            Text(text = "Create Profile")
+        }
     }
 }
