@@ -1,31 +1,36 @@
 package com.map08.shiftapp.pages
 
-import android.content.Context
 import android.net.Uri
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.google.firebase.storage.FirebaseStorage
 import com.map08.shiftapp.LocalEmployeeProfileViewModel
 import com.map08.shiftapp.LocalNavController
+import com.map08.shiftapp.R
 import com.map08.shiftapp.models.Employee
-import com.map08.shiftapp.utils.uploadImageToFirebase // Import the function from the utils package
-import java.util.*
+import com.map08.shiftapp.LocalAuthViewModel
+import com.map08.shiftapp.utils.uploadImageToFirebase
 
 @Composable
 fun EmployeeEditPage() {
@@ -65,11 +70,18 @@ fun EmployeeEditPage() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color(0XFF1976D2))
             .padding(16.dp)
-            .verticalScroll(rememberScrollState()), // 添加垂直滚动功能
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Edit Profile", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        Text(
+            text = "Edit Profile",
+            fontSize = 32.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -77,58 +89,110 @@ fun EmployeeEditPage() {
             Image(
                 painter = rememberAsyncImagePainter(profileImageUri),
                 contentDescription = "Profile Image",
-                modifier = Modifier.size(128.dp)
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(160.dp)
+                    .clip(RoundedCornerShape(100.dp))
             )
         } else if (employee?.profileImageUrl != null) {
             Image(
                 painter = rememberAsyncImagePainter(employee?.profileImageUrl),
                 contentDescription = "Profile Image",
-                modifier = Modifier.size(128.dp)
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(160.dp)
+                    .clip(RoundedCornerShape(100.dp))
             )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = { launcher.launch("image/*") }) {
-            Text("Select Profile Image")
+            Text(text = "Select Profile Image", fontSize = 16.sp, fontWeight = FontWeight.Medium)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(
+        BasicTextField(
             value = name,
             onValueChange = { name = it },
-            label = { Text("Name") }
+            modifier = Modifier
+                .background(Color.White, RoundedCornerShape(8.dp))
+                .padding(16.dp)
+                .fillMaxWidth(),
+            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium)
         )
-        TextField(
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        BasicTextField(
             value = age,
             onValueChange = { age = it },
-            label = { Text("Age") }
+            modifier = Modifier
+                .background(Color.White, RoundedCornerShape(8.dp))
+                .padding(16.dp)
+                .fillMaxWidth(),
+            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium)
         )
-        TextField(
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        BasicTextField(
             value = country,
             onValueChange = { country = it },
-            label = { Text("Country") }
+            modifier = Modifier
+                .background(Color.White, RoundedCornerShape(8.dp))
+                .padding(16.dp)
+                .fillMaxWidth(),
+            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium)
         )
-        TextField(
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        BasicTextField(
             value = city,
             onValueChange = { city = it },
-            label = { Text("City") }
+            modifier = Modifier
+                .background(Color.White, RoundedCornerShape(8.dp))
+                .padding(16.dp)
+                .fillMaxWidth(),
+            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium)
         )
-        TextField(
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        BasicTextField(
             value = hobbies,
             onValueChange = { hobbies = it },
-            label = { Text("Hobbies") }
+            modifier = Modifier
+                .background(Color.White, RoundedCornerShape(8.dp))
+                .padding(16.dp)
+                .fillMaxWidth(),
+            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium)
         )
-        TextField(
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        BasicTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Email") }
+            modifier = Modifier
+                .background(Color.White, RoundedCornerShape(8.dp))
+                .padding(16.dp)
+                .fillMaxWidth(),
+            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium)
         )
-        TextField(
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        BasicTextField(
             value = phone,
             onValueChange = { phone = it },
-            label = { Text("Phone") }
+            modifier = Modifier
+                .background(Color.White, RoundedCornerShape(8.dp))
+                .padding(16.dp)
+                .fillMaxWidth(),
+            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium)
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -136,7 +200,7 @@ fun EmployeeEditPage() {
         Button(
             onClick = {
                 val updatedEmployee = Employee(
-                    id = employee?.id ?: "",  // 确保包括员工的ID
+                    id = employee?.id ?: "",  // Ensure employee's ID is included
                     name = name,
                     age = age.toIntOrNull() ?: 0,
                     country = country,
@@ -155,9 +219,10 @@ fun EmployeeEditPage() {
                     employeeProfileViewModel.updateEmployeeProfile(updatedEmployee)
                     navController.popBackStack()
                 }
-            }
+            },
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "Save")
+            Text(text = "Save", fontSize = 18.sp, fontWeight = FontWeight.Bold)
         }
     }
 }
