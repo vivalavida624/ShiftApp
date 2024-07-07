@@ -50,7 +50,7 @@ fun ManagerHomePage() {
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Manager Home", fontSize = 20.sp)
+                    Text(text = "Manager", fontSize = 20.sp)
                 },
                 actions = {
                     TextButton(
@@ -93,7 +93,7 @@ fun ManagerHomePage() {
 @Composable
 fun ManagerContentScreen(modifier: Modifier, selectedIndex: Int) {
     when(selectedIndex) {
-        0-> ManagerHomePage()
+        0-> ManagerHomeScreen()
         1-> ManagerTimePage()
         2-> ManagerListPage()
         3-> ManagerProfilePage()

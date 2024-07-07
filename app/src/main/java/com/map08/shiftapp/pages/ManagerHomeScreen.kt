@@ -13,14 +13,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ManagerListPage() {
+fun ManagerHomeScreen() {
     Column(
         modifier = Modifier.fillMaxSize().background(Color(0XFF1976D2)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Manager List",
+            text = "Manager Home",
             fontSize = 40.sp,
             fontWeight = FontWeight.SemiBold,
             color = Color.White

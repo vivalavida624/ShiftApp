@@ -1,8 +1,6 @@
 package com.map08.shiftapp.pages
 
-import android.content.Context
 import android.net.Uri
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -19,15 +17,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.auth.FirebaseAuth
-import com.map08.shiftapp.LocalEmployeeProfileViewModel
+import com.map08.shiftapp.LocalEmployeeViewModel
 import com.map08.shiftapp.LocalNavController
 import com.map08.shiftapp.models.Employee
 import com.map08.shiftapp.utils.uploadImageToFirebase // Import the function from the utils package
-import java.util.*
 
 @Composable
 fun CreateProfilePage() {
-    val employeeProfileViewModel = LocalEmployeeProfileViewModel.current
+    val employeeProfileViewModel = LocalEmployeeViewModel.current
     val navController = LocalNavController.current
     val context = LocalContext.current
 
@@ -67,8 +64,6 @@ fun CreateProfilePage() {
         OutlinedTextField(value = city, onValueChange = { city = it }, label = { Text("City") })
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(value = hobbies, onValueChange = { hobbies = it }, label = { Text("Hobbies") })
-        Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(value = email, onValueChange = { email = it }, label = { Text("Email") })
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(value = phone, onValueChange = { phone = it }, label = { Text("Phone") })
         Spacer(modifier = Modifier.height(8.dp))

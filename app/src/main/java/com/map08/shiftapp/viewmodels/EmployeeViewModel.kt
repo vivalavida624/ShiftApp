@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class EmployeeProfileViewModel : ViewModel() {
+class EmployeeViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val _employee = MutableStateFlow<Employee?>(null)
     val employee: StateFlow<Employee?> = _employee
