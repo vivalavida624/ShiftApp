@@ -15,15 +15,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.storage.FirebaseStorage
 import com.map08.shiftapp.LocalEmployeeProfileViewModel
 import com.map08.shiftapp.LocalNavController
 import com.map08.shiftapp.models.Employee
-import com.map08.shiftapp.viewmodels.EmployeeProfileViewModel
+import com.map08.shiftapp.utils.uploadImageToFirebase // Import the function from the utils package
 import java.util.*
 
 @Composable
@@ -114,28 +111,6 @@ fun CreateProfilePage() {
             }
         ) {
             Text("Save")
-        }
-    }
-}
-
-fun uploadImageToFirebase(context: Context, uri: Uri, onSuccess: (String) -> Unit) {
-    val storageRef = FirebaseStorage.getInstance().reference
-    val imageRef = storageRef.child("profile_images/${UUID.randomUUID()}.jpg")
-    val uploadTask = imageRef.putFile(uri)
-
-    uploadTask.continueWithTask { task ->
-        if (!task.isSuccessful) {
-            task.exception?.let {
-                throw it
-            }
-        }
-        imageRef.downloadUrl
-    }.addOnCompleteListener { task ->
-        if (task.isSuccessful) {
-            val downloadUri = task.result
-            onSuccess(downloadUri.toString())
-        } else {
-            Toast.makeText(context, "Upload failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
         }
     }
 }
