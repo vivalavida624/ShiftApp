@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -55,32 +56,37 @@ fun EmployeeProfilePage() {
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(160.dp)
-                    .clip(RoundedCornerShape(100.dp))
+                    .clip(RoundedCornerShape(80.dp))
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
             Text(
                 text = "Profile",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
-                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+                modifier = Modifier.padding(vertical = 16.dp)
             )
-            Text(text = "Name: ${employee?.name ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
-            Text(text = "Age: ${employee?.age ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
-            Text(text = "Country: ${employee?.country ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
-            Text(text = "City: ${employee?.city ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
-            Text(text = "Hobbies: ${employee?.hobbies ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
-            Text(text = "Email: ${employee?.email ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
-            Text(text = "Phone: ${employee?.phone ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White)
+            Text(text = "Name: ${employee?.name ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White, modifier = Modifier.padding(vertical = 4.dp))
+            Text(text = "Age: ${employee?.age ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White, modifier = Modifier.padding(vertical = 4.dp))
+            Text(text = "Country: ${employee?.country ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White, modifier = Modifier.padding(vertical = 4.dp))
+            Text(text = "City: ${employee?.city ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White, modifier = Modifier.padding(vertical = 4.dp))
+            Text(text = "Hobbies: ${employee?.hobbies ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White, modifier = Modifier.padding(vertical = 4.dp))
+            Text(text = "Email: ${employee?.email ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White, modifier = Modifier.padding(vertical = 4.dp))
+            Text(text = "Phone: ${employee?.phone ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White, modifier = Modifier.padding(vertical = 4.dp))
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
                 onClick = {
                     navController.navigate("editProfile")
-                }
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color(0XFF1976D2)),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .clip(RoundedCornerShape(12.dp))
             ) {
-                Text(text = "Edit Profile")
+                Text(text = "Edit Profile", fontSize = 18.sp, fontWeight = FontWeight.Bold)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -88,9 +94,14 @@ fun EmployeeProfilePage() {
             Button(
                 onClick = {
                     navController.navigate("createProfile")
-                }
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color(0XFF1976D2)),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .clip(RoundedCornerShape(12.dp))
             ) {
-                Text(text = "Create Profile")
+                Text(text = "Create Profile", fontSize = 18.sp, fontWeight = FontWeight.Bold)
             }
         }
     } else {
@@ -98,7 +109,7 @@ fun EmployeeProfilePage() {
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            CircularProgressIndicator()
+            CircularProgressIndicator(color = Color.White)
         }
     }
 }
