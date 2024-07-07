@@ -15,57 +15,30 @@ class EmployeeProfileViewModel : ViewModel() {
     val employee: StateFlow<Employee?> = _employee
 
     init {
-        fetchEmployeeProfile()
-    }
-
-    fun fetchEmployeeProfile() {
-        viewModelScope.launch {
-            try {
-                db.collection("employees")
-                    .get()
-                    .addOnSuccessListener { querySnapshot ->
-                        val employees = mutableListOf<Employee>()
-                        for (document in querySnapshot) {
-                            val employee = document.toObject(Employee::class.java)
-                            employees.add(employee)
-                        }
-                        if (employees.isNotEmpty()) {
-                            _employee.value = employees[0]
-                        } else {
-                            _employee.value = null
-                        }
-                    }
-                    .addOnFailureListener { exception ->
-                        _employee.value = null
-                        println("Fetch employees failed: ${exception.message}")
-                    }
-            } catch (e: Exception) {
-                _employee.value = null
-                println("Fetch employees exception: ${e.message}")
-            }
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId != null) {
+            fetchEmployeeProfile(userId)
         }
     }
 
-    fun fetchEmployeeProfileById(employeeId: String) {
+    fun fetchEmployeeProfile(userId: String) {
         viewModelScope.launch {
             try {
-                db.collection("employees").document(employeeId)
+                db.collection("employees").document(userId)
                     .get()
                     .addOnSuccessListener { document ->
-                        if (document.exists()) {
+                        if (document != null && document.exists()) {
                             val employee = document.toObject(Employee::class.java)
                             _employee.value = employee
                         } else {
                             _employee.value = null
                         }
                     }
-                    .addOnFailureListener { exception ->
+                    .addOnFailureListener {
                         _employee.value = null
-                        println("Fetch employee by ID failed: ${exception.message}")
                     }
             } catch (e: Exception) {
                 _employee.value = null
-                println("Fetch employee by ID exception: ${e.message}")
             }
         }
     }
@@ -78,11 +51,11 @@ class EmployeeProfileViewModel : ViewModel() {
                     .addOnSuccessListener {
                         _employee.value = employee
                     }
-                    .addOnFailureListener { exception ->
-                        println("Update employee failed: ${exception.message}")
+                    .addOnFailureListener {
+                        // handle failure
                     }
             } catch (e: Exception) {
-                println("Update employee exception: ${e.message}")
+                // handle exception
             }
         }
     }

@@ -10,18 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import com.map08.shiftapp.LocalAuthViewModel
 import com.map08.shiftapp.LocalEmployeeProfileViewModel
 import com.map08.shiftapp.LocalNavController
 import com.map08.shiftapp.models.Employee
-import com.map08.shiftapp.viewmodels.EmployeeProfileViewModel
 
 @Composable
 fun EmployeeEditPage() {
-
-    val authViewModel = LocalAuthViewModel.current
     val employeeProfileViewModel = LocalEmployeeProfileViewModel.current
     val employee by employeeProfileViewModel.employee.collectAsState(initial = null)
     val navController = LocalNavController.current
@@ -33,7 +27,6 @@ fun EmployeeEditPage() {
     var hobbies by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
-
 
     LaunchedEffect(employee) {
         employee?.let {
@@ -98,6 +91,7 @@ fun EmployeeEditPage() {
         Button(
             onClick = {
                 val updatedEmployee = Employee(
+                    id = employee?.id ?: "",  // 确保包括员工的ID
                     name = name,
                     age = age.toIntOrNull() ?: 0,
                     country = country,

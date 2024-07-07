@@ -41,7 +41,7 @@ import com.map08.shiftapp.viewmodels.EmployeeProfileViewModel
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color(0XFF1976D2))
-                    .padding(top = 60.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
+                    .padding(top = 100.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

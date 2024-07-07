@@ -6,11 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.map08.shiftapp.pages.*
-import com.map08.shiftapp.viewmodels.AuthViewModel
 
 @Composable
-fun Navigation() {
-
+fun Navigation(modifier: Modifier = Modifier) {
     val navController = LocalNavController.current
     val authViewModel = LocalAuthViewModel.current
 
@@ -30,6 +28,9 @@ fun Navigation() {
         composable("editProfile") {
             EmployeeEditPage()
         }
+        composable("createProfile") {
+            CreateProfilePage()
+        }
         composable("manager-login") {
             ManagerLoginPage()
         }
@@ -39,6 +40,5 @@ fun Navigation() {
         composable("manager-home") {
             ManagerHomePage()
         }
-
     }
 }
