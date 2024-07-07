@@ -13,7 +13,7 @@ val LocalAuthViewModel = compositionLocalOf<AuthViewModel> {
     error("No AuthViewModel provided")
 }
 val LocalEmployeeViewModel = compositionLocalOf<EmployeeViewModel> {
-    error("No EmployeeViewModel provided")
+    error("No EmployeeProfileViewModel provided")
 }
 val LocalManagerViewModel = compositionLocalOf<ManagerViewModel> {
     error("No ManagerViewModel provided")

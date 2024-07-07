@@ -23,28 +23,30 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.map08.shiftapp.LocalManagerViewModel
 import com.map08.shiftapp.R
-import com.map08.shiftapp.models.Manager
+import com.map08.shiftapp.models.Employee
 
 @Composable
 fun ManagerListPage() {
     val managerViewModel = LocalManagerViewModel.current
-    val managerList by managerViewModel.managerList.collectAsState(initial = emptyList())
+    val employeeList by managerViewModel.employeeList.collectAsState()
 
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0XFF1976D2)),
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        contentPadding = PaddingValues(top = 90.dp) // 添加顶部填充
     ) {
-        items(managerList) { manager ->
-            ManagerCard(manager)
+        items(employeeList) { employee ->
+            EmployeeCard(employee)
         }
     }
 }
 
+
 @Composable
-fun ManagerCard(manager: Manager) {
+fun EmployeeCard(employee: Employee) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -58,7 +60,7 @@ fun ManagerCard(manager: Manager) {
                 .padding(16.dp)
         ) {
             val painter = rememberAsyncImagePainter(
-                model = manager.profileImageUrl,
+                model = employee.profileImageUrl,
                 placeholder = painterResource(id = R.drawable.ic_profile_placeholder),
                 error = painterResource(id = R.drawable.ic_profile_placeholder)
             )
@@ -78,8 +80,8 @@ fun ManagerCard(manager: Manager) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.Start
             ) {
-                Text(text = manager.name, fontSize = 20.sp, color = Color.Black)
-                Text(text = manager.phone, fontSize = 16.sp, color = Color.Gray)
+                Text(text = employee.name, fontSize = 20.sp, color = Color.Black)
+                Text(text = employee.phone, fontSize = 16.sp, color = Color.Gray)
             }
         }
     }

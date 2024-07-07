@@ -3,34 +3,34 @@ package com.map08.shiftapp.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
-import com.map08.shiftapp.models.Manager
+import com.map08.shiftapp.models.Employee
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ManagerViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
-    private val _managerList = MutableStateFlow<List<Manager>>(emptyList())
-    val managerList: StateFlow<List<Manager>> = _managerList
+    private val _employeeList = MutableStateFlow<List<Employee>>(emptyList())
+    val employeeList: StateFlow<List<Employee>> = _employeeList
 
     init {
-        fetchManagerList()
+        fetchEmployees()
     }
 
-    private fun fetchManagerList() {
+    private fun fetchEmployees() {
         viewModelScope.launch {
             try {
-                db.collection("managers")
+                db.collection("employees")
                     .get()
                     .addOnSuccessListener { documents ->
-                        val managers = documents.mapNotNull { it.toObject(Manager::class.java) }
-                        _managerList.value = managers
+                        val employees = documents.mapNotNull { it.toObject(Employee::class.java) }
+                        _employeeList.value = employees
                     }
                     .addOnFailureListener {
-                        // handle failure
+                        _employeeList.value = emptyList()
                     }
             } catch (e: Exception) {
-                // handle exception
+                _employeeList.value = emptyList()
             }
         }
     }

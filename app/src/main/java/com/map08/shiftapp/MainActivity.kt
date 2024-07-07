@@ -42,34 +42,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
-//@Composable
-//fun MainScreen() {
-//    var showSplash by remember { mutableStateOf(true) }
-//
-//    LaunchedEffect(key1 = true) {
-//        delay(3000)
-//        showSplash = false
-//    }
-//
-//    if (showSplash) {
-//        SplashScreen()
-//    } else {
-//        LoginScreen()
-//    }
-//}
-//
-//@Composable
-//fun SplashScreen() {
-//    Box(
-//        modifier = Modifier.fillMaxSize(),
-//        contentAlignment = Alignment.Center
-//    ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.logo),
-//            contentDescription = "App Logo",
-//            modifier = Modifier.size(200.dp)
-//        )
-//    }
-//}
