@@ -8,6 +8,8 @@ data class Employee(
     var city: String = "",
     var hobbies: String = "",
     var email: String = "",
-    var phone: String = ""
+    var phone: String = "",
+    var profileImageUrl: String? = null
 )
+
 
