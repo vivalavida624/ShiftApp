@@ -44,23 +44,22 @@ class AuthViewModel: ViewModel() {
     }
 
     fun signup(email: String, password: String) {
-
-        if(email.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty()) {
             _authState.value = AuthState.Error("Email or password can't be empty")
             return
         }
 
         _authState.value = AuthState.Loading
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener{task->
-                if(task.isSuccessful){
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
                     _authState.value = AuthState.Authenticated
-                }else{
-                    _authState.value =
-                        AuthState.Error(task.exception?.message ?: "Something went wrong")
+                } else {
+                    _authState.value = AuthState.Error(task.exception?.message ?: "Something went wrong")
                 }
             }
     }
+
 
     fun signout(){
         auth.signOut()
