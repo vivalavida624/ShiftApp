@@ -1,12 +1,13 @@
 package com.map08.shiftapp.models
 
 data class Employee(
-    val name: String = "",
-    val age: Int = 0,
-    val country: String = "",
-    val city: String = "",
-    val hobbies: String = "",
-    val email: String = "",
-    val phone: String = ""
+    var id: String = "",
+    var name: String = "",
+    var age: Int = 0,
+    var country: String = "",
+    var city: String = "",
+    var hobbies: String = "",
+    var email: String = "",
+    var phone: String = ""
 )
 

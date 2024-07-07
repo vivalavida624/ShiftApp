@@ -35,7 +35,6 @@ import com.map08.shiftapp.R
 
 @Composable
 fun EmployeeSignupPage() {
-
     val navController = LocalNavController.current
     val authViewModel = LocalAuthViewModel.current
 
@@ -45,20 +44,30 @@ fun EmployeeSignupPage() {
     val context = LocalContext.current
 
     LaunchedEffect(authState.value) {
-        when(authState.value){
-            is AuthState.Authenticated -> navController.navigate("home")
-            is AuthState.Error -> Toast.makeText(context,
-                (authState.value as AuthState.Error).message, Toast.LENGTH_SHORT).show()
+        when (authState.value) {
+            is AuthState.Authenticated -> {
+                // 注册成功后导航到创建个人资料页面
+                navController.navigate("createProfile")
+            }
+            is AuthState.Error -> Toast.makeText(
+                context,
+                (authState.value as AuthState.Error).message,
+                Toast.LENGTH_SHORT
+            ).show()
             else -> Unit
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize(),
+    Column(
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment =  Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(painter = painterResource(id = R.drawable.logo), contentDescription = "Login Image",
-            modifier = Modifier.size(200.dp))
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "Login Image",
+            modifier = Modifier.size(200.dp)
+        )
 
         Text(text = "Employee Portal", fontSize = 28.sp, fontWeight = FontWeight.Bold)
 
@@ -70,32 +79,24 @@ fun EmployeeSignupPage() {
 
         OutlinedTextField(
             value = email,
-            onValueChange = {
-                email = it
-            },
-            label = {
-                Text(text = "Email")
-            }
+            onValueChange = { email = it },
+            label = { Text(text = "Email") }
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
             value = password,
-            onValueChange = {
-                password = it
-            },
-            label = {
-                Text(text = "Password")
-            }
+            onValueChange = { password = it },
+            label = { Text(text = "Password") }
         )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
             authViewModel.signup(email, password)
         }) {
             Text(text = "Create Account")
-
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -105,7 +106,6 @@ fun EmployeeSignupPage() {
         }) {
             Text(text = "Already have account, login")
         }
-
-
     }
 }
+

@@ -21,12 +21,11 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import androidx.compose.ui.Modifier
 import com.map08.shiftapp.LocalAuthViewModel
 import com.map08.shiftapp.LocalNavController
-import com.map08.shiftapp.viewmodels.AuthViewModel
 import com.map08.shiftapp.ManagerNavItem
-import androidx.compose.ui.Modifier.Companion as Modifier
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -86,13 +85,13 @@ fun ManagerHomePage() {
             }
         }
     ){ innerPadding ->
-        ContentScreen(modifier = Modifier.padding(innerPadding), navController,selectedIndex)
+        ManagerContentScreen(modifier = Modifier.padding(innerPadding),selectedIndex)
 
     }
 }
 
 @Composable
-fun ContentScreen(modifier: Modifier = Modifier, navController: NavController, selectedIndex: Int) {
+fun ManagerContentScreen(modifier: Modifier, selectedIndex: Int) {
     when(selectedIndex) {
         0-> ManagerHomePage()
         1-> ManagerTimePage()

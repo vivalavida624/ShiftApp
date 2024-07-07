@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,7 +19,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.map08.shiftapp.ui.theme.ShiftAppTheme
 import com.map08.shiftapp.viewmodels.AuthViewModel
+import com.map08.shiftapp.viewmodels.EmployeeProfileViewModel
 import kotlinx.coroutines.delay
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,11 +33,13 @@ class MainActivity : ComponentActivity() {
             ShiftAppTheme {
                 val navController = rememberNavController()
                 val authViewModel = viewModel<AuthViewModel>()
+                val employeeProfileViewModel = viewModel<EmployeeProfileViewModel>()
 
                 CompositionLocalProvider(
                     LocalAuthViewModel provides authViewModel,
                     LocalNavController provides navController,
-                    ) {
+                    LocalEmployeeProfileViewModel provides employeeProfileViewModel
+                ) {
                     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                         Navigation(modifier = Modifier.padding(innerPadding))
                     }
@@ -45,32 +49,32 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun MainScreen() {
-    var showSplash by remember { mutableStateOf(true) }
-
-    LaunchedEffect(key1 = true) {
-        delay(3000)
-        showSplash = false
-    }
-
-    if (showSplash) {
-        SplashScreen()
-    } else {
-        LoginScreen()
-    }
-}
-
-@Composable
-fun SplashScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo),
-            contentDescription = "App Logo",
-            modifier = Modifier.size(200.dp)
-        )
-    }
-}
+//@Composable
+//fun MainScreen() {
+//    var showSplash by remember { mutableStateOf(true) }
+//
+//    LaunchedEffect(key1 = true) {
+//        delay(3000)
+//        showSplash = false
+//    }
+//
+//    if (showSplash) {
+//        SplashScreen()
+//    } else {
+//        LoginScreen()
+//    }
+//}
+//
+//@Composable
+//fun SplashScreen() {
+//    Box(
+//        modifier = Modifier.fillMaxSize(),
+//        contentAlignment = Alignment.Center
+//    ) {
+//        Image(
+//            painter = painterResource(id = R.drawable.logo),
+//            contentDescription = "App Logo",
+//            modifier = Modifier.size(200.dp)
+//        )
+//    }
+//}
