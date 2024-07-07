@@ -63,7 +63,7 @@ fun EmployeeLoginPage() {
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        Text(text = "Login to your account")
+        Text(text = "Sign in to your account")
 
         Spacer(modifier = Modifier.height(16.dp))
 
