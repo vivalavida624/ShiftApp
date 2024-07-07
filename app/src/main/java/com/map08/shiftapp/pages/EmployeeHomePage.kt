@@ -88,7 +88,7 @@ fun EmployeeHomePage() {
 fun EmployeeContentScreen( modifier: Modifier,selectedIndex: Int) {
     when (selectedIndex) {
         0 -> EmployeeTimePage()
-        1 -> Text(text = "Home Content", modifier = Modifier.fillMaxSize())
+        1 -> EmployeeHomeScreen()
         2 -> EmployeeProfilePage()
     }
 }

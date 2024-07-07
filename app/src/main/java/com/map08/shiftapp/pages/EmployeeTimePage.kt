@@ -13,9 +13,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun EmployeeTimePage(modifier: Modifier = Modifier) {
+fun EmployeeTimePage() {
     Column(
-        modifier = modifier.fillMaxSize().background(Color(0XFF1976D2)),
+        modifier = Modifier.fillMaxSize().background(Color(0XFF1976D2)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

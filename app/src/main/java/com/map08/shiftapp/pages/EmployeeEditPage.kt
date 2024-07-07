@@ -12,7 +12,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,21 +19,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.map08.shiftapp.LocalEmployeeProfileViewModel
+import com.map08.shiftapp.LocalEmployeeViewModel
 import com.map08.shiftapp.LocalNavController
-import com.map08.shiftapp.R
 import com.map08.shiftapp.models.Employee
-import com.map08.shiftapp.LocalAuthViewModel
 import com.map08.shiftapp.utils.uploadImageToFirebase
 
 @Composable
 fun EmployeeEditPage() {
-    val employeeProfileViewModel = LocalEmployeeProfileViewModel.current
+    val employeeProfileViewModel = LocalEmployeeViewModel.current
     val employee by employeeProfileViewModel.employee.collectAsState(initial = null)
     val navController = LocalNavController.current
     val context = LocalContext.current
