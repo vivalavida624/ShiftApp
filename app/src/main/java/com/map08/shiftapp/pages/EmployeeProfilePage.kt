@@ -135,18 +135,18 @@ fun EmployeeProfilePage() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(
-                onClick = {
-                    navController.navigate("createProfile")
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color(0XFF1976D2)),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .clip(RoundedCornerShape(12.dp))
-            ) {
-                Text(text = "Create Profile", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            }
+//            Button(
+//                onClick = {
+//                    navController.navigate("createProfile")
+//                },
+//                colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color(0XFF1976D2)),
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(50.dp)
+//                    .clip(RoundedCornerShape(12.dp))
+//            ) {
+//                Text(text = "Create Profile", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+//            }
         }
     } else {
         Box(
