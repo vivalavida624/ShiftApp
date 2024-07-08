@@ -5,22 +5,50 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.map08.shiftapp.models.Employee
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class EmployeeProfileViewModel : ViewModel() {
+class EmployeeViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val _employee = MutableStateFlow<Employee?>(null)
     val employee: StateFlow<Employee?> = _employee
+
+    private val _employeeList = MutableStateFlow<List<Employee>>(emptyList())
+    val employeeList: StateFlow<List<Employee>> = _employeeList
+
 
     init {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {
             fetchEmployeeProfile(userId)
         }
+        fetchEmployees()
     }
 
+    fun fetchEmployees() {
+        viewModelScope.launch {
+            try {
+                db.collection("employees")
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        val employees = documents.mapNotNull { it.toObject(Employee::class.java) }
+                        _employeeList.value = employees
+                    }
+                    .addOnFailureListener {
+                        _employeeList.value = emptyList()
+                    }
+            } catch (e: Exception) {
+                _employeeList.value = emptyList()
+            }
+        }
+    }
+
+    fun getEmployeeById(employeeId: String): Flow<Employee?> {
+        return _employeeList.map { list -> list.find { it.id == employeeId } }
+    }
     fun fetchEmployeeProfile(userId: String) {
         viewModelScope.launch {
             try {

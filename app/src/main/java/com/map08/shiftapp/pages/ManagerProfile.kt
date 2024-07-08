@@ -21,6 +21,7 @@ import com.map08.shiftapp.LocalNavController
 import com.map08.shiftapp.R
 
 @Composable
+
 fun ManagerProfilePage(modifier: Modifier = Modifier) {
     val navController = LocalNavController.current
 
@@ -30,6 +31,7 @@ fun ManagerProfilePage(modifier: Modifier = Modifier) {
             .background(Color(0XFF1976D2))
             .padding(top = 100.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
         verticalArrangement = Arrangement.Top,
+
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(

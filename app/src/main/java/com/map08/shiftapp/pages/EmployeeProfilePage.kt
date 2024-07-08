@@ -3,7 +3,9 @@ package com.map08.shiftapp.pages
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -22,16 +24,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.map08.shiftapp.LocalAuthViewModel
-import com.map08.shiftapp.LocalEmployeeProfileViewModel
+import com.map08.shiftapp.LocalEmployeeViewModel
 import com.map08.shiftapp.LocalNavController
 import com.map08.shiftapp.R
-import com.map08.shiftapp.models.Employee
 
 @Composable
 fun EmployeeProfilePage() {
 
     val authViewModel = LocalAuthViewModel.current
-    val employeeProfileViewModel = LocalEmployeeProfileViewModel.current
+    val employeeProfileViewModel = LocalEmployeeViewModel.current
     val employee by employeeProfileViewModel.employee.collectAsState(initial = null)
     val navController = LocalNavController.current
 
@@ -40,6 +41,7 @@ fun EmployeeProfilePage() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0XFF1976D2))
+                .verticalScroll(rememberScrollState()) // 添加垂直滚动功能
                 .padding(top = 100.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -66,13 +68,55 @@ fun EmployeeProfilePage() {
                 color = Color.White,
                 modifier = Modifier.padding(vertical = 16.dp)
             )
-            Text(text = "Name: ${employee?.name ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White, modifier = Modifier.padding(vertical = 4.dp))
-            Text(text = "Age: ${employee?.age ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White, modifier = Modifier.padding(vertical = 4.dp))
-            Text(text = "Country: ${employee?.country ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White, modifier = Modifier.padding(vertical = 4.dp))
-            Text(text = "City: ${employee?.city ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White, modifier = Modifier.padding(vertical = 4.dp))
-            Text(text = "Hobbies: ${employee?.hobbies ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White, modifier = Modifier.padding(vertical = 4.dp))
-            Text(text = "Email: ${employee?.email ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White, modifier = Modifier.padding(vertical = 4.dp))
-            Text(text = "Phone: ${employee?.phone ?: ""}", fontSize = 20.sp, fontWeight = FontWeight.Medium, color = Color.White, modifier = Modifier.padding(vertical = 4.dp))
+            Text(
+                text = "Name: ${employee?.name ?: ""}",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.White,
+                modifier = Modifier.padding(vertical = 4.dp)
+            )
+            Text(
+                text = "Age: ${employee?.age ?: ""}",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.White,
+                modifier = Modifier.padding(vertical = 4.dp)
+            )
+            Text(
+                text = "Country: ${employee?.country ?: ""}",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.White,
+                modifier = Modifier.padding(vertical = 4.dp)
+            )
+            Text(
+                text = "City: ${employee?.city ?: ""}",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.White,
+                modifier = Modifier.padding(vertical = 4.dp)
+            )
+            Text(
+                text = "Hobbies: ${employee?.hobbies ?: ""}",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.White,
+                modifier = Modifier.padding(vertical = 4.dp)
+            )
+            Text(
+                text = "Email: ${employee?.email ?: ""}",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.White,
+                modifier = Modifier.padding(vertical = 4.dp)
+            )
+            Text(
+                text = "Phone: ${employee?.phone ?: ""}",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.White,
+                modifier = Modifier.padding(vertical = 4.dp)
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -91,18 +135,18 @@ fun EmployeeProfilePage() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(
-                onClick = {
-                    navController.navigate("createProfile")
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color(0XFF1976D2)),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .clip(RoundedCornerShape(12.dp))
-            ) {
-                Text(text = "Create Profile", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            }
+//            Button(
+//                onClick = {
+//                    navController.navigate("createProfile")
+//                },
+//                colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color(0XFF1976D2)),
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(50.dp)
+//                    .clip(RoundedCornerShape(12.dp))
+//            ) {
+//                Text(text = "Create Profile", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+//            }
         }
     } else {
         Box(
