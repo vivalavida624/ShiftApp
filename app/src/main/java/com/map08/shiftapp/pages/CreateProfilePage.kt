@@ -4,14 +4,19 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -19,9 +24,13 @@ import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.auth.FirebaseAuth
 import com.map08.shiftapp.LocalEmployeeViewModel
 import com.map08.shiftapp.LocalNavController
+import com.map08.shiftapp.R
 import com.map08.shiftapp.models.Employee
-import com.map08.shiftapp.utils.uploadImageToFirebase // Import the function from the utils package
+import com.map08.shiftapp.utils.uploadImageToFirebase
+import java.util.*
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateProfilePage() {
     val employeeProfileViewModel = LocalEmployeeViewModel.current
@@ -47,32 +56,87 @@ fun CreateProfilePage() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color(0XFF1976D2))
             .padding(16.dp)
-            .verticalScroll(rememberScrollState()), // 添加垂直滚动功能
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Create Profile", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        Text(text = "Create Profile", fontSize = 32.sp, fontWeight = FontWeight.Bold, color = Color.White)
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(value = name, onValueChange = { name = it }, label = { Text("Name") })
+        OutlinedTextField(
+            value = name, onValueChange = { name = it },
+            label = { Text("Name", color = Color.White) },
+            textStyle = LocalTextStyle.current.copy(color = Color.White),
+            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
+        )
         Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(value = age, onValueChange = { age = it }, label = { Text("Age") })
+
+        OutlinedTextField(
+            value = age, onValueChange = { age = it },
+            label = { Text("Age", color = Color.White) },
+            textStyle = LocalTextStyle.current.copy(color = Color.White),
+            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
+        )
         Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(value = country, onValueChange = { country = it }, label = { Text("Country") })
+
+        OutlinedTextField(
+            value = country, onValueChange = { country = it },
+            label = { Text("Country", color = Color.White) },
+            textStyle = LocalTextStyle.current.copy(color = Color.White),
+            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
+        )
         Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(value = city, onValueChange = { city = it }, label = { Text("City") })
+
+        OutlinedTextField(
+            value = city, onValueChange = { city = it },
+            label = { Text("City", color = Color.White) },
+            textStyle = LocalTextStyle.current.copy(color = Color.White),
+            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
+        )
         Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(value = hobbies, onValueChange = { hobbies = it }, label = { Text("Hobbies") })
+
+        OutlinedTextField(
+            value = hobbies, onValueChange = { hobbies = it },
+            label = { Text("Hobbies", color = Color.White) },
+            textStyle = LocalTextStyle.current.copy(color = Color.White),
+            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
+        )
         Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(value = phone, onValueChange = { phone = it }, label = { Text("Phone") })
+
+        OutlinedTextField(
+            value = email, onValueChange = { email = it },
+            label = { Text("Email", color = Color.White) },
+            textStyle = LocalTextStyle.current.copy(color = Color.White),
+            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        OutlinedTextField(
+            value = phone, onValueChange = { phone = it },
+            label = { Text("Phone", color = Color.White) },
+            textStyle = LocalTextStyle.current.copy(color = Color.White),
+            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
+        )
+
         Spacer(modifier = Modifier.height(8.dp))
 
         if (profileImageUri != null) {
             Image(
                 painter = rememberAsyncImagePainter(profileImageUri),
                 contentDescription = "Profile Image",
-                modifier = Modifier.size(128.dp)
+                modifier = Modifier
+                    .size(128.dp)
+                    .clip(RoundedCornerShape(100.dp))
+            )
+        } else {
+            Image(
+                painter = painterResource(id = R.drawable.ic_profile_placeholder),
+                contentDescription = "Profile Image",
+                modifier = Modifier
+                    .size(128.dp)
+                    .clip(RoundedCornerShape(100.dp))
             )
         }
 
@@ -89,7 +153,7 @@ fun CreateProfilePage() {
                 val newEmployee = Employee(
                     id = FirebaseAuth.getInstance().currentUser?.uid ?: "",
                     name = name,
-                    age = age.toInt(),
+                    age = age.toIntOrNull() ?: 0,
                     country = country,
                     city = city,
                     hobbies = hobbies,
@@ -106,9 +170,10 @@ fun CreateProfilePage() {
                     employeeProfileViewModel.createEmployeeProfile(newEmployee)
                     navController.navigate("home")
                 }
-            }
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = Color.White)
         ) {
-            Text("Save")
+            Text("Save", color = Color(0XFF1976D2))
         }
     }
 }
