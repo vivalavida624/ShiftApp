@@ -13,7 +13,6 @@ import androidx.navigation.compose.rememberNavController
 import com.map08.shiftapp.ui.theme.ShiftAppTheme
 import com.map08.shiftapp.viewmodels.AuthViewModel
 import com.map08.shiftapp.viewmodels.EmployeeViewModel
-import com.map08.shiftapp.viewmodels.ManagerViewModel
 import androidx.compose.runtime.CompositionLocalProvider
 
 class MainActivity : ComponentActivity() {
@@ -26,13 +25,11 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val authViewModel = viewModel<AuthViewModel>()
                 val employeeViewModel = viewModel<EmployeeViewModel>()
-                val managerViewModel = viewModel<ManagerViewModel>()
 
                 CompositionLocalProvider(
                     LocalAuthViewModel provides authViewModel,
                     LocalNavController provides navController,
                     LocalEmployeeViewModel provides employeeViewModel,
-                    LocalManagerViewModel provides managerViewModel
                 ) {
                     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                         Navigation(modifier = Modifier.padding(innerPadding))

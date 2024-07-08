@@ -21,14 +21,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.map08.shiftapp.LocalManagerViewModel
+import com.map08.shiftapp.LocalEmployeeViewModel
 import com.map08.shiftapp.R
 import com.map08.shiftapp.models.Employee
 
 @Composable
 fun ManagerListPage() {
-    val managerViewModel = LocalManagerViewModel.current
-    val employeeList by managerViewModel.employeeList.collectAsState()
+
+    val viewModel = LocalEmployeeViewModel.current
+    val employeeList by viewModel.employeeList.collectAsState()
 
     LazyColumn(
         modifier = Modifier
@@ -81,6 +82,7 @@ fun EmployeeCard(employee: Employee) {
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(text = employee.name, fontSize = 20.sp, color = Color.Black)
+                Spacer(modifier = Modifier.height(16.dp))
                 Text(text = employee.phone, fontSize = 16.sp, color = Color.Gray)
             }
         }
