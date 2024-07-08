@@ -14,8 +14,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.google.firebase.firestore.FirebaseFirestore
 import com.map08.shiftapp.LocalShiftViewModel
 import com.map08.shiftapp.models.Shift
+import kotlinx.coroutines.launch
 
 @Composable
 fun EmployeeTimePage() {
@@ -23,6 +25,8 @@ fun EmployeeTimePage() {
     val context = LocalContext.current
     val shiftViewModel = LocalShiftViewModel.current
     val shifts by shiftViewModel.monthlyShifts.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    val db = FirebaseFirestore.getInstance()
 
     Column(
         modifier = Modifier
@@ -64,7 +68,19 @@ fun EmployeeTimePage() {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(shifts) { shift ->
-                ShiftCard(shift = shift)
+                ShiftCard(shift = shift, onUpdateShift = { updatedShift ->
+                    coroutineScope.launch {
+                        db.collection("shifts")
+                            .document(updatedShift.id)
+                            .update("status", updatedShift.status)
+                            .addOnSuccessListener {
+                                shiftViewModel.fetchShiftsForCurrentMonth()
+                            }
+                            .addOnFailureListener { e ->
+                                // Handle failure
+                            }
+                    }
+                })
             }
         }
     }

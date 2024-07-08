@@ -25,7 +25,7 @@ class ShiftViewModel : ViewModel() {
         fetchShiftsForCurrentWeek()
     }
 
-    private fun fetchShiftsForCurrentMonth() {
+    fun fetchShiftsForCurrentMonth() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         Log.d("MyApp", "Current user ID: $userId")
 
@@ -46,7 +46,9 @@ class ShiftViewModel : ViewModel() {
             .whereLessThanOrEqualTo("endTime", endOfMonth)
             .get()
             .addOnSuccessListener { documents ->
-                val shiftList = documents.mapNotNull { it.toObject(Shift::class.java) }
+                val shiftList = documents.mapNotNull { document ->
+                    document.toObject(Shift::class.java).copy(id = document.id)
+                }
                 _monthlyShifts.value = shiftList
                 Log.d("MyApp", "Shifts retrieved: $shiftList")
             }
@@ -56,7 +58,7 @@ class ShiftViewModel : ViewModel() {
             }
     }
 
-    private fun fetchShiftsForCurrentWeek() {
+    fun fetchShiftsForCurrentWeek() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         Log.d("MyApp", "Current user ID: $userId")
 
@@ -78,7 +80,9 @@ class ShiftViewModel : ViewModel() {
             .whereLessThanOrEqualTo("endTime", endOfWeek)
             .get()
             .addOnSuccessListener { documents ->
-                val shiftList = documents.mapNotNull { it.toObject(Shift::class.java) }
+                val shiftList = documents.mapNotNull { document ->
+                    document.toObject(Shift::class.java).copy(id = document.id)
+                }
                 _weeklyShifts.value = shiftList
                 Log.d("MyApp", "Shifts retrieved: $shiftList")
             }
@@ -87,5 +91,4 @@ class ShiftViewModel : ViewModel() {
                 Log.e("MyApp", "Error fetching shifts", e)
             }
     }
-
 }

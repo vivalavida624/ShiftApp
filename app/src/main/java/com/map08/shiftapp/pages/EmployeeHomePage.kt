@@ -8,26 +8,28 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-
 import androidx.compose.ui.unit.dp
-
+import com.google.firebase.firestore.FirebaseFirestore
 import com.map08.shiftapp.LocalShiftViewModel
+import com.map08.shiftapp.models.Shift
+import kotlinx.coroutines.launch
 
 @Composable
-fun EmployeeHomeScreen(){
-
+fun EmployeeHomeScreen() {
     val shiftViewModel = LocalShiftViewModel.current
     val shifts by shiftViewModel.weeklyShifts.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    val db = FirebaseFirestore.getInstance()
 
     Column(
-        modifier = Modifier.fillMaxSize().background(Color(0XFF1976D2)),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0XFF1976D2)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -39,9 +41,20 @@ fun EmployeeHomeScreen(){
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(shifts) { shift ->
-                ShiftCard(shift = shift)
+                ShiftCard(shift = shift, onUpdateShift = { updatedShift ->
+                    coroutineScope.launch {
+                        db.collection("shifts")
+                            .document(updatedShift.id) // 使用 shift 的 id 字段
+                            .update("status", updatedShift.status)
+                            .addOnSuccessListener {
+                                shiftViewModel.fetchShiftsForCurrentWeek()
+                            }
+                            .addOnFailureListener { e ->
+                                // Handle failure
+                            }
+                    }
+                })
             }
         }
-
     }
 }
