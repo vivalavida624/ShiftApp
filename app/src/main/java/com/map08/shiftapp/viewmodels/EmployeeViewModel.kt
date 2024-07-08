@@ -14,10 +14,32 @@ class EmployeeViewModel : ViewModel() {
     private val _employee = MutableStateFlow<Employee?>(null)
     val employee: StateFlow<Employee?> = _employee
 
+    private val _employeeList = MutableStateFlow<List<Employee>>(emptyList())
+    val employeeList: StateFlow<List<Employee>> = _employeeList
+
     init {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {
             fetchEmployeeProfile(userId)
+        }
+        fetchEmployees()
+    }
+
+    private fun fetchEmployees() {
+        viewModelScope.launch {
+            try {
+                db.collection("employees")
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        val employees = documents.mapNotNull { it.toObject(Employee::class.java) }
+                        _employeeList.value = employees
+                    }
+                    .addOnFailureListener {
+                        _employeeList.value = emptyList()
+                    }
+            } catch (e: Exception) {
+                _employeeList.value = emptyList()
+            }
         }
     }
 

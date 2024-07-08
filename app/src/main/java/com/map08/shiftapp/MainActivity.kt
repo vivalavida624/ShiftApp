@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
                 CompositionLocalProvider(
                     LocalAuthViewModel provides authViewModel,
                     LocalNavController provides navController,
-                    LocalEmployeeViewModel provides employeeViewModel
+                    LocalEmployeeViewModel provides employeeViewModel,
                 ) {
                     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                         Navigation(modifier = Modifier.padding(innerPadding))
@@ -39,33 +39,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-//@Composable
-//fun MainScreen() {
-//    var showSplash by remember { mutableStateOf(true) }
-//
-//    LaunchedEffect(key1 = true) {
-//        delay(3000)
-//        showSplash = false
-//    }
-//
-//    if (showSplash) {
-//        SplashScreen()
-//    } else {
-//        LoginScreen()
-//    }
-//}
-//
-//@Composable
-//fun SplashScreen() {
-//    Box(
-//        modifier = Modifier.fillMaxSize(),
-//        contentAlignment = Alignment.Center
-//    ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.logo),
-//            contentDescription = "App Logo",
-//            modifier = Modifier.size(200.dp)
-//        )
-//    }
-//}
