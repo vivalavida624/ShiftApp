@@ -1,10 +1,10 @@
 package com.map08.shiftapp.models
 
-import java.util.Date
+import com.google.firebase.Timestamp
 
 data class Shift(
     val employeeId: String = "",
-    val startTime: Date = Date(),
-    val endTime: Date = Date(),
+    val startTime: Timestamp = Timestamp.now(),
+    val endTime: Timestamp = Timestamp.now(),
     val status: String = ""
 )

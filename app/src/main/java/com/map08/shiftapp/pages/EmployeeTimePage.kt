@@ -78,8 +78,8 @@ fun EmployeeTimePage() {
 fun ShiftItem(shift: Shift) {
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
     Column(modifier = Modifier.padding(8.dp)) {
-        Text(text = "Start Time: ${sdf.format(shift.startTime)}", fontSize = 16.sp, color = Color.Black)
-        Text(text = "End Time: ${sdf.format(shift.endTime)}", fontSize = 16.sp, color = Color.Black)
+        Text(text = "Start Time: ${sdf.format(shift.startTime.toDate())}", fontSize = 16.sp, color = Color.Black)
+        Text(text = "End Time: ${sdf.format(shift.endTime.toDate())}", fontSize = 16.sp, color = Color.Black)
         Text(text = "Status: ${shift.status}", fontSize = 16.sp, color = Color.Black)
         Spacer(modifier = Modifier.height(8.dp))
     }
