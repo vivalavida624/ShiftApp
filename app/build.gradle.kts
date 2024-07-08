@@ -50,6 +50,7 @@ android {
     }
 }
 
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -68,6 +69,11 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.firebase.appcheck)
     implementation(libs.firebase.appcheck.debug)
+    implementation(libs.places)
+    implementation(libs.androidx.core.i18n)
+    implementation (libs.kotlin.stdlib.jdk8)
+    implementation (libs.androidx.appcompat)
+    implementation (libs.androidx.appcompat.resources)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -1,30 +1,35 @@
 package com.map08.shiftapp.pages
 
-import androidx.compose.foundation.background
+import android.widget.CalendarView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.viewinterop.AndroidView
 
+@Preview()
 @Composable
 fun EmployeeTimePage() {
-    Column(
-        modifier = Modifier.fillMaxSize().background(Color(0XFF1976D2)),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Time Page",
-            fontSize = 40.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = Color.White
-        )
+    var date by remember { mutableStateOf("") }
 
+    Column(
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        AndroidView(factory = { CalendarView(it) }, update = {
+            it.setOnDateChangeListener { canlendarView, year, month, day ->
+                date = "$day - ${month +1} - $year"
+            }
+        })
+        Text(text = date)
     }
 }
