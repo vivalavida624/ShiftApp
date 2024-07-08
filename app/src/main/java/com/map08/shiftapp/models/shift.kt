@@ -3,6 +3,7 @@ package com.map08.shiftapp.models
 import com.google.firebase.Timestamp
 
 data class Shift(
+    val id: String = "",
     val employeeId: String = "",
     val startTime: Timestamp = Timestamp.now(),
     val endTime: Timestamp = Timestamp.now(),

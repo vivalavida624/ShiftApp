@@ -5,8 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,17 +14,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.google.firebase.firestore.FirebaseFirestore
 import com.map08.shiftapp.LocalShiftViewModel
 import com.map08.shiftapp.models.Shift
-import java.text.SimpleDateFormat
-import java.util.*
+import kotlinx.coroutines.launch
 
 @Composable
 fun EmployeeTimePage() {
     var selectedDate by remember { mutableStateOf("") }
     val context = LocalContext.current
     val shiftViewModel = LocalShiftViewModel.current
-    val shifts by shiftViewModel.shifts.collectAsState()
+    val shifts by shiftViewModel.monthlyShifts.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    val db = FirebaseFirestore.getInstance()
 
     Column(
         modifier = Modifier
@@ -68,26 +68,20 @@ fun EmployeeTimePage() {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(shifts) { shift ->
-                ShiftCard(shift = shift)
+                ShiftCard(shift = shift, onUpdateShift = { updatedShift ->
+                    coroutineScope.launch {
+                        db.collection("shifts")
+                            .document(updatedShift.id)
+                            .update("status", updatedShift.status)
+                            .addOnSuccessListener {
+                                shiftViewModel.fetchShiftsForCurrentMonth()
+                            }
+                            .addOnFailureListener { e ->
+                                // Handle failure
+                            }
+                    }
+                })
             }
-        }
-    }
-}
-
-@Composable
-fun ShiftCard(shift: Shift) {
-    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-    val statusColor = if (shift.status == "complete") Color(0xFF4CAF50) else Color(0xFFF44336)
-
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = statusColor),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Start Time: ${sdf.format(shift.startTime.toDate())}", fontSize = 16.sp, color = Color.White)
-            Text(text = "End Time: ${sdf.format(shift.endTime.toDate())}", fontSize = 16.sp, color = Color.White)
-            Text(text = "Status: ${shift.status}", fontSize = 16.sp, color = Color.White)
         }
     }
 }
