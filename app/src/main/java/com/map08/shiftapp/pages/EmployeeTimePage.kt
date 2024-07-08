@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -34,16 +36,16 @@ fun EmployeeTimePage() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Calendar",
-            fontSize = 24.sp,
+            text = "Employee Time",
+            fontSize = 30.sp,
             color = Color.White,
             modifier = Modifier.padding(16.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
         AndroidView(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
             factory = { CalendarView(context).apply {
                 setOnDateChangeListener { _, year, month, dayOfMonth ->
                     selectedDate = "$dayOfMonth/${month + 1}/$year"
@@ -51,36 +53,41 @@ fun EmployeeTimePage() {
             } }
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
         Text(
             text = "Selected Date: $selectedDate",
             fontSize = 20.sp,
-            color = Color.White
+            color = Color.White,
+            modifier = Modifier.padding(16.dp)
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
 
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White)
-                .padding(16.dp)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(shifts) { shift ->
-                ShiftItem(shift = shift)
+                ShiftCard(shift = shift)
             }
         }
     }
 }
 
 @Composable
-fun ShiftItem(shift: Shift) {
+fun ShiftCard(shift: Shift) {
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-    Column(modifier = Modifier.padding(8.dp)) {
-        Text(text = "Start Time: ${sdf.format(shift.startTime.toDate())}", fontSize = 16.sp, color = Color.Black)
-        Text(text = "End Time: ${sdf.format(shift.endTime.toDate())}", fontSize = 16.sp, color = Color.Black)
-        Text(text = "Status: ${shift.status}", fontSize = 16.sp, color = Color.Black)
-        Spacer(modifier = Modifier.height(8.dp))
+    val statusColor = if (shift.status == "complete") Color(0xFF4CAF50) else Color(0xFFF44336)
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = statusColor),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = "Start Time: ${sdf.format(shift.startTime.toDate())}", fontSize = 16.sp, color = Color.White)
+            Text(text = "End Time: ${sdf.format(shift.endTime.toDate())}", fontSize = 16.sp, color = Color.White)
+            Text(text = "Status: ${shift.status}", fontSize = 16.sp, color = Color.White)
+        }
     }
 }
