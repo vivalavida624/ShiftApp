@@ -20,14 +20,14 @@ import com.map08.shiftapp.models.Shift
 import kotlinx.coroutines.launch
 
 @Composable
-fun EmployeeHomeScreen() {
+fun EmployeeHomeScreen(modifier: Modifier = Modifier) {
     val shiftViewModel = LocalShiftViewModel.current
     val shifts by shiftViewModel.weeklyShifts.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     val db = FirebaseFirestore.getInstance()
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Color(0XFF1976D2)),
         verticalArrangement = Arrangement.Center,

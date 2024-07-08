@@ -85,10 +85,10 @@ fun EmployeeHomePage() {
 }
 
 @Composable
-fun EmployeeContentScreen( modifier: Modifier,selectedIndex: Int) {
+fun EmployeeContentScreen(modifier: Modifier, selectedIndex: Int) {
     when (selectedIndex) {
-        0 -> EmployeeTimePage()
-        1 -> EmployeeHomeScreen()
-        2 -> EmployeeProfilePage()
+        0 -> EmployeeTimePage(modifier)
+        1 -> EmployeeHomeScreen(modifier)
+        2 -> EmployeeProfilePage(modifier)
     }
 }
