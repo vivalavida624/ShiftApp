@@ -16,6 +16,8 @@ fun ShiftCard(shift: Shift, onUpdateShift: ((Shift) -> Unit)? = null) {
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
     val statusColor = if (shift.status == "complete") Color(0xFF4CAF50) else Color(0xFFF44336)
 
+    var showDialog by remember { mutableStateOf(false) }
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = statusColor),
@@ -28,11 +30,34 @@ fun ShiftCard(shift: Shift, onUpdateShift: ((Shift) -> Unit)? = null) {
 
             if (shift.status == "Incomplete" && onUpdateShift != null) {
                 Button(onClick = {
-                    onUpdateShift(shift.copy(status = "complete"))
+                    showDialog = true
                 }) {
                     Text("Mark as Complete")
                 }
             }
         }
+    }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text(text = "Confirm Completion") },
+            text = { Text("Are you sure you want to mark this shift as complete?") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        onUpdateShift?.invoke(shift.copy(status = "complete"))
+                        showDialog = false
+                    }
+                ) {
+                    Text("Yes")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text("No")
+                }
+            }
+        )
     }
 }

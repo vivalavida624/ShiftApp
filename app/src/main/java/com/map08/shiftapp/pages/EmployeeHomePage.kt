@@ -44,7 +44,7 @@ fun EmployeeHomeScreen() {
                 ShiftCard(shift = shift, onUpdateShift = { updatedShift ->
                     coroutineScope.launch {
                         db.collection("shifts")
-                            .document(updatedShift.id) // 使用 shift 的 id 字段
+                            .document(updatedShift.id)
                             .update("status", updatedShift.status)
                             .addOnSuccessListener {
                                 shiftViewModel.fetchShiftsForCurrentWeek()
