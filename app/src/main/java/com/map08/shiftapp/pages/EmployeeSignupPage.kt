@@ -2,25 +2,16 @@ package com.map08.shiftapp.pages
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,6 +24,7 @@ import com.map08.shiftapp.viewmodels.AuthState
 import com.map08.shiftapp.viewmodels.AuthViewModel
 import com.map08.shiftapp.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmployeeSignupPage() {
     val navController = LocalNavController.current
@@ -46,7 +38,6 @@ fun EmployeeSignupPage() {
     LaunchedEffect(authState.value) {
         when (authState.value) {
             is AuthState.Authenticated -> {
-                // 注册成功后导航到创建个人资料页面
                 navController.navigate("createProfile")
             }
             is AuthState.Error -> Toast.makeText(
@@ -59,28 +50,37 @@ fun EmployeeSignupPage() {
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0XFF1976D2))
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "Login Image",
-            modifier = Modifier.size(200.dp)
+            modifier = Modifier
+                .size(200.dp)
+                .clip(RoundedCornerShape(100.dp))
         )
 
-        Text(text = "Employee Portal", fontSize = 28.sp, fontWeight = FontWeight.Bold)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(text = "Employee Portal", fontSize = 32.sp, fontWeight = FontWeight.Bold, color = Color.White)
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        Text(text = "Signup Page", fontSize = 32.sp)
+        Text(text = "Signup Page", fontSize = 28.sp, color = Color.White)
 
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text(text = "Email") }
+            label = { Text(text = "Email", color = Color.White) },
+            textStyle = LocalTextStyle.current.copy(color = Color.White),
+            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -88,15 +88,18 @@ fun EmployeeSignupPage() {
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text(text = "Password") }
+            label = { Text(text = "Password", color = Color.White) },
+            textStyle = LocalTextStyle.current.copy(color = Color.White),
+            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {
-            authViewModel.signup(email, password)
-        }) {
-            Text(text = "Create Account")
+        Button(
+            onClick = { authViewModel.signup(email, password) },
+            colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+        ) {
+            Text(text = "Create Account", color = Color(0XFF1976D2))
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -104,8 +107,7 @@ fun EmployeeSignupPage() {
         TextButton(onClick = {
             navController.navigate("login")
         }) {
-            Text(text = "Already have account, login")
+            Text(text = "Already have an account? Login", color = Color.White)
         }
     }
 }
-
