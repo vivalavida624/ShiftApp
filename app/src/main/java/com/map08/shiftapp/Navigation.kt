@@ -31,6 +31,9 @@ fun Navigation(modifier: Modifier = Modifier) {
         composable("createProfile") {
             CreateProfilePage()
         }
+        composable("time") {
+            EmployeeTimePage()
+        }
         composable("manager-login") {
             ManagerLoginPage()
         }
@@ -42,4 +45,3 @@ fun Navigation(modifier: Modifier = Modifier) {
         }
     }
 }
-
