@@ -22,7 +22,7 @@ fun EmployeeTimePage() {
     var selectedDate by remember { mutableStateOf("") }
     val context = LocalContext.current
     val shiftViewModel = LocalShiftViewModel.current
-    val shifts by shiftViewModel.shifts.collectAsState()
+    val shifts by shiftViewModel.monthlyShifts.collectAsState()
 
     Column(
         modifier = Modifier

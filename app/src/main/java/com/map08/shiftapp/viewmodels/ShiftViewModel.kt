@@ -14,11 +14,15 @@ import java.util.*
 
 class ShiftViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
-    private val _shifts = MutableStateFlow<List<Shift>>(emptyList())
-    val shifts: StateFlow<List<Shift>> = _shifts
+    private val _monthlyShifts = MutableStateFlow<List<Shift>>(emptyList())
+    val monthlyShifts: StateFlow<List<Shift>> = _monthlyShifts
+
+    private val _weeklyShifts = MutableStateFlow<List<Shift>>(emptyList())
+    val weeklyShifts: StateFlow<List<Shift>> = _weeklyShifts
 
     init {
         fetchShiftsForCurrentMonth()
+        fetchShiftsForCurrentWeek()
     }
 
     private fun fetchShiftsForCurrentMonth() {
@@ -43,12 +47,45 @@ class ShiftViewModel : ViewModel() {
             .get()
             .addOnSuccessListener { documents ->
                 val shiftList = documents.mapNotNull { it.toObject(Shift::class.java) }
-                _shifts.value = shiftList
+                _monthlyShifts.value = shiftList
                 Log.d("MyApp", "Shifts retrieved: $shiftList")
             }
             .addOnFailureListener { e ->
-                _shifts.value = emptyList()
+                _monthlyShifts.value = emptyList()
                 Log.e("MyApp", "Error fetching shifts", e)
             }
     }
+
+    private fun fetchShiftsForCurrentWeek() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        Log.d("MyApp", "Current user ID: $userId")
+
+        val calendar = Calendar.getInstance()
+
+        // Start of the week (Assuming Sunday is the first day of the week)
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+        val startOfWeek = Timestamp(calendar.time)
+        Log.d("MyApp", "Start of week: $startOfWeek")
+
+        // End of the week (Saturday)
+        calendar.add(Calendar.DAY_OF_WEEK, 6)
+        val endOfWeek = Timestamp(calendar.time)
+        Log.d("MyApp", "End of week: $endOfWeek")
+
+        db.collection("shifts")
+            .whereEqualTo("employeeId", userId)
+            .whereGreaterThanOrEqualTo("startTime", startOfWeek)
+            .whereLessThanOrEqualTo("endTime", endOfWeek)
+            .get()
+            .addOnSuccessListener { documents ->
+                val shiftList = documents.mapNotNull { it.toObject(Shift::class.java) }
+                _weeklyShifts.value = shiftList
+                Log.d("MyApp", "Shifts retrieved: $shiftList")
+            }
+            .addOnFailureListener { e ->
+                _weeklyShifts.value = emptyList()
+                Log.e("MyApp", "Error fetching shifts", e)
+            }
+    }
+
 }
