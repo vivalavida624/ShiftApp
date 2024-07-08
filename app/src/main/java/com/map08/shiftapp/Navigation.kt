@@ -43,5 +43,14 @@ fun Navigation(modifier: Modifier = Modifier) {
         composable("manager-home") {
             ManagerHomePage()
         }
+        composable("manager-list") {
+            ManagerListPage()
+        }
+        composable("employeeDetail/{employeeId}") { backStackEntry ->
+            val employeeId = backStackEntry.arguments?.getString("employeeId")
+            employeeId?.let {
+                EmployeeDetailPage(employeeId)
+            }
+        }
     }
 }

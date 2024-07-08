@@ -2,6 +2,7 @@ package com.map08.shiftapp.pages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,12 +23,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.map08.shiftapp.LocalEmployeeViewModel
+import com.map08.shiftapp.LocalNavController
 import com.map08.shiftapp.R
 import com.map08.shiftapp.models.Employee
 
 @Composable
 fun ManagerListPage() {
 
+    val navController = LocalNavController.current
     val viewModel = LocalEmployeeViewModel.current
     val employeeList by viewModel.employeeList.collectAsState()
 
@@ -40,18 +43,21 @@ fun ManagerListPage() {
         contentPadding = PaddingValues(top = 90.dp) // 添加顶部填充
     ) {
         items(employeeList) { employee ->
-            EmployeeCard(employee)
+            EmployeeCard(employee) {
+                navController.navigate("employeeDetail/${employee.id}")
+            }
         }
     }
 }
 
 
 @Composable
-fun EmployeeCard(employee: Employee) {
+fun EmployeeCard(employee: Employee, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {

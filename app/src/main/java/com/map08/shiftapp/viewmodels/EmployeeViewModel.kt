@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.map08.shiftapp.models.Employee
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class EmployeeViewModel : ViewModel() {
@@ -17,6 +19,7 @@ class EmployeeViewModel : ViewModel() {
     private val _employeeList = MutableStateFlow<List<Employee>>(emptyList())
     val employeeList: StateFlow<List<Employee>> = _employeeList
 
+
     init {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {
@@ -25,7 +28,7 @@ class EmployeeViewModel : ViewModel() {
         fetchEmployees()
     }
 
-    private fun fetchEmployees() {
+    fun fetchEmployees() {
         viewModelScope.launch {
             try {
                 db.collection("employees")
@@ -43,6 +46,9 @@ class EmployeeViewModel : ViewModel() {
         }
     }
 
+    fun getEmployeeById(employeeId: String): Flow<Employee?> {
+        return _employeeList.map { list -> list.find { it.id == employeeId } }
+    }
     fun fetchEmployeeProfile(userId: String) {
         viewModelScope.launch {
             try {
