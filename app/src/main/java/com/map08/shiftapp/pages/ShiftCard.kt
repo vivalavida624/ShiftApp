@@ -71,7 +71,7 @@ fun ShiftCard(shift: Shift, onUpdateShift: ((Shift) -> Unit)? = null) {
                             .width(100.dp) // Adjust the width as needed
                             .height(36.dp)
                     ) {
-                        Text("Complete", color = Color.White, fontSize = 14.sp)
+                        Text("Done", color = Color.White, fontSize = 14.sp)
                     }
                 } else if (shift.status == "complete") {
                     Image(
