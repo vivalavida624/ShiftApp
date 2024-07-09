@@ -59,16 +59,18 @@ fun ManagerLoginPage() {
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "Login Image",
-            modifier = Modifier.size(200.dp)
+            modifier = Modifier.size(250.dp)
         )
 
         Text(
             text = "Manager Portal",
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.White,
-            modifier = Modifier.padding(vertical = 16.dp)
+            color = Color.Yellow,
+            modifier = Modifier.padding(vertical = 22.dp)
         )
+
+        Spacer(modifier = Modifier.height(26.dp))
 
         OutlinedTextField(
             value = email,
@@ -112,7 +114,7 @@ fun ManagerLoginPage() {
         Spacer(modifier = Modifier.height(8.dp))
 
         TextButton(onClick = { navController.navigate("manager-signup") }) {
-            Text(text = "Don't have an account? Sign Up", color = Color.White, fontSize = 14.sp)
+            Text(text = "Don't have an account? Sign Up here", color = Color.White, fontSize = 16.sp)
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -122,7 +124,7 @@ fun ManagerLoginPage() {
         Spacer(modifier = Modifier.height(8.dp))
 
         TextButton(onClick = { navController.navigate("login") }) {
-            Text(text = "Go to Employee Portal", color = Color.White, fontSize = 14.sp)
+            Text(text = "Employee Login", color = Color.White, fontSize = 16.sp)
         }
     }
 }
