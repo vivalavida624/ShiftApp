@@ -14,6 +14,7 @@ import java.util.*
 
 class ShiftViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
+
     private val _monthlyShifts = MutableStateFlow<List<Shift>>(emptyList())
     val monthlyShifts: StateFlow<List<Shift>> = _monthlyShifts
 
@@ -29,6 +30,8 @@ class ShiftViewModel : ViewModel() {
     init {
         fetchShiftsForCurrentMonth()
         fetchShiftsForCurrentWeek()
+        fetchShiftsForAllUsersForCurrentMonth()
+        fetchAllShiftsForAllUsers() // 为什么这里加上才会显示呢？
     }
 
     fun fetchShiftsForCurrentMonth() {
