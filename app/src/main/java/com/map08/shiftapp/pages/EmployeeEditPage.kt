@@ -7,11 +7,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,10 +75,8 @@ fun EmployeeEditPage() {
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White,
-            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+            modifier = Modifier.padding(vertical = 16.dp)
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
 
         if (profileImageUri != null) {
             Image(
@@ -88,7 +85,8 @@ fun EmployeeEditPage() {
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(160.dp)
-                    .clip(RoundedCornerShape(100.dp))
+                    .clip(RoundedCornerShape(80.dp))
+                    .background(Color.White)
             )
         } else if (employee?.profileImageUrl != null) {
             Image(
@@ -97,98 +95,82 @@ fun EmployeeEditPage() {
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(160.dp)
-                    .clip(RoundedCornerShape(100.dp))
+                    .clip(RoundedCornerShape(80.dp))
+                    .background(Color.White)
             )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = { launcher.launch("image/*") }) {
+        Button(
+            onClick = { launcher.launch("image/*") },
+            colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color(0XFF1976D2)),
+            modifier = Modifier.clip(RoundedCornerShape(12.dp))
+        ) {
             Text(text = "Select Profile Image", fontSize = 16.sp, fontWeight = FontWeight.Medium)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        BasicTextField(
+        CustomTextField(
             value = name,
             onValueChange = { name = it },
-            modifier = Modifier
-                .background(Color.White, RoundedCornerShape(8.dp))
-                .padding(16.dp)
-                .fillMaxWidth(),
-            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium)
+            label = "Name",
+            placeholder = "Enter your name"
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        BasicTextField(
+        CustomTextField(
             value = age,
             onValueChange = { age = it },
-            modifier = Modifier
-                .background(Color.White, RoundedCornerShape(8.dp))
-                .padding(16.dp)
-                .fillMaxWidth(),
-            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium)
+            label = "Age",
+            placeholder = "Enter your age"
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        BasicTextField(
+        CustomTextField(
             value = country,
             onValueChange = { country = it },
-            modifier = Modifier
-                .background(Color.White, RoundedCornerShape(8.dp))
-                .padding(16.dp)
-                .fillMaxWidth(),
-            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium)
+            label = "Country",
+            placeholder = "Enter your country"
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        BasicTextField(
+        CustomTextField(
             value = city,
             onValueChange = { city = it },
-            modifier = Modifier
-                .background(Color.White, RoundedCornerShape(8.dp))
-                .padding(16.dp)
-                .fillMaxWidth(),
-            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium)
+            label = "City",
+            placeholder = "Enter your city"
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        BasicTextField(
+        CustomTextField(
             value = hobbies,
             onValueChange = { hobbies = it },
-            modifier = Modifier
-                .background(Color.White, RoundedCornerShape(8.dp))
-                .padding(16.dp)
-                .fillMaxWidth(),
-            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium)
+            label = "Hobbies",
+            placeholder = "Enter your hobbies"
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        BasicTextField(
+        CustomTextField(
             value = email,
             onValueChange = { email = it },
-            modifier = Modifier
-                .background(Color.White, RoundedCornerShape(8.dp))
-                .padding(16.dp)
-                .fillMaxWidth(),
-            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium)
+            label = "Email",
+            placeholder = "Enter your email"
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        BasicTextField(
+        CustomTextField(
             value = phone,
             onValueChange = { phone = it },
-            modifier = Modifier
-                .background(Color.White, RoundedCornerShape(8.dp))
-                .padding(16.dp)
-                .fillMaxWidth(),
-            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium)
+            label = "Phone",
+            placeholder = "Enter your phone number"
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -216,9 +198,52 @@ fun EmployeeEditPage() {
                     navController.popBackStack()
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color(0XFF1976D2)),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .clip(RoundedCornerShape(12.dp))
         ) {
             Text(text = "Save", fontSize = 18.sp, fontWeight = FontWeight.Bold)
         }
+    }
+}
+
+@Composable
+fun CustomTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    placeholder: String,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        Text(
+            text = label,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = Color.White,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
+        BasicTextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .background(Color.White, RoundedCornerShape(8.dp))
+                .padding(16.dp)
+                .fillMaxWidth(),
+            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium),
+            decorationBox = { innerTextField ->
+                if (value.isEmpty()) {
+                    Text(
+                        text = placeholder,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.Gray
+                    )
+                }
+                innerTextField()
+            }
+        )
     }
 }
