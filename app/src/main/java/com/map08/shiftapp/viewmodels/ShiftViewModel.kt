@@ -14,6 +14,7 @@ import java.util.*
 
 class ShiftViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
+
     private val _monthlyShifts = MutableStateFlow<List<Shift>>(emptyList())
     val monthlyShifts: StateFlow<List<Shift>> = _monthlyShifts
 
@@ -29,6 +30,8 @@ class ShiftViewModel : ViewModel() {
     init {
         fetchShiftsForCurrentMonth()
         fetchShiftsForCurrentWeek()
+        fetchShiftsForAllUsersForCurrentMonth()
+        fetchAllShiftsForAllUsers() // 为什么这里加上才会显示呢？
     }
 
     fun fetchShiftsForCurrentMonth() {
@@ -146,4 +149,39 @@ class ShiftViewModel : ViewModel() {
                 Log.e("MyApp", "Error fetching all shifts for all users", e)
             }
     }
+
+    fun assignShift(employeeId: String, date: Date, startTime: Date, endTime: Date) {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+
+        // 设置开始时间
+        val startCalendar = Calendar.getInstance()
+        startCalendar.time = startTime
+        calendar.set(Calendar.HOUR_OF_DAY, startCalendar.get(Calendar.HOUR_OF_DAY))
+        calendar.set(Calendar.MINUTE, startCalendar.get(Calendar.MINUTE))
+        val shiftStartTime = Timestamp(calendar.time)
+
+        // 设置结束时间
+        val endCalendar = Calendar.getInstance()
+        endCalendar.time = endTime
+        calendar.set(Calendar.HOUR_OF_DAY, endCalendar.get(Calendar.HOUR_OF_DAY))
+        calendar.set(Calendar.MINUTE, endCalendar.get(Calendar.MINUTE))
+        val shiftEndTime = Timestamp(calendar.time)
+
+        val shift = Shift(
+            employeeId = employeeId,
+            startTime = shiftStartTime,
+            endTime = shiftEndTime,
+            status = "Incomplete"
+        )
+
+        db.collection("shifts").add(shift)
+            .addOnSuccessListener {
+                Log.d("MyApp", "Shift assigned successfully: $shift")
+            }
+            .addOnFailureListener { e ->
+                Log.e("MyApp", "Error assigning shift", e)
+            }
+    }
 }
+
