@@ -1,14 +1,18 @@
 package com.map08.shiftapp.pages
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.map08.shiftapp.R
 import com.map08.shiftapp.models.Shift
 import java.text.SimpleDateFormat
 import java.util.*
@@ -69,6 +73,15 @@ fun ShiftCard(shift: Shift, onUpdateShift: ((Shift) -> Unit)? = null) {
                     ) {
                         Text("Complete", color = Color.White, fontSize = 14.sp)
                     }
+                } else if (shift.status == "complete") {
+                    Image(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_stamp),
+                        contentDescription = "Stamp",
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .width(70.dp) // Adjust the width as needed
+                            .height(70.dp)
+                    )
                 }
             }
         }
