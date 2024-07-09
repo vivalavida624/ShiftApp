@@ -168,7 +168,8 @@ class ShiftViewModel : ViewModel() {
         val shift = Shift(
             employeeId = employeeId,
             startTime = shiftStartTime,
-            endTime = shiftEndTime
+            endTime = shiftEndTime,
+            status = "Incomplete"
         )
 
         db.collection("shifts").add(shift)
