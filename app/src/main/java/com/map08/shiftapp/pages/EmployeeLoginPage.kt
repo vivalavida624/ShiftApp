@@ -48,6 +48,10 @@ fun EmployeeLoginPage() {
             is AuthState.Authenticated -> navController.navigate("home")
             is AuthState.Error -> Toast.makeText(context,
                 (authState.value as AuthState.Error).message, Toast.LENGTH_SHORT).show()
+            is AuthState.PasswordResetSuccess -> Toast.makeText(context,
+                (authState.value as AuthState.PasswordResetSuccess).message, Toast.LENGTH_SHORT).show()
+            is AuthState.PasswordResetError -> Toast.makeText(context,
+                (authState.value as AuthState.PasswordResetError).message, Toast.LENGTH_SHORT).show()
             else -> Unit
         }
     }
@@ -88,6 +92,12 @@ fun EmployeeLoginPage() {
                 Text(text = "Password")
             }
         )
+
+        TextButton(onClick = {
+            authViewModel.forgotPassword(email)
+        }) {
+            Text(text = "Forget Password")
+        }
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {

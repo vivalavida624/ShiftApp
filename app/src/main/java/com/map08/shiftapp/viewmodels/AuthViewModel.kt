@@ -60,12 +60,27 @@ class AuthViewModel: ViewModel() {
             }
     }
 
-
     fun signout(){
         auth.signOut()
         _authState.value = AuthState.Unauthenticated
     }
 
+    fun forgotPassword(email: String) {
+        if (email.isEmpty()) {
+            _authState.value = AuthState.Error("Email can't be empty")
+            return
+        }
+
+        _authState.value = AuthState.Loading
+        auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    _authState.value = AuthState.PasswordResetSuccess("Password reset email sent")
+                } else {
+                    _authState.value = AuthState.PasswordResetError(task.exception?.message ?: "Something went wrong")
+                }
+            }
+    }
 }
 
 sealed class AuthState{
@@ -73,4 +88,6 @@ sealed class AuthState{
     object Unauthenticated : AuthState()
     object Loading : AuthState()
     data class Error(val message: String) : AuthState()
+    data class PasswordResetSuccess(val message: String) : AuthState()
+    data class PasswordResetError(val message: String) : AuthState()
 }
