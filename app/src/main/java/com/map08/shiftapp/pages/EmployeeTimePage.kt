@@ -27,6 +27,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.map08.shiftapp.LocalShiftViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun EmployeeTimePage(modifier: Modifier = Modifier) {
@@ -36,6 +39,11 @@ fun EmployeeTimePage(modifier: Modifier = Modifier) {
     val shifts by shiftViewModel.monthlyShifts.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     val db = FirebaseFirestore.getInstance()
+
+    // Date formatter to format the selected date
+    val dateFormatter = remember {
+        SimpleDateFormat("MMMM d, yyyy", Locale.getDefault())
+    }
 
     Column(
         modifier = modifier
@@ -57,7 +65,10 @@ fun EmployeeTimePage(modifier: Modifier = Modifier) {
                 .padding(16.dp),
             factory = { CalendarView(context).apply {
                 setOnDateChangeListener { _, year, month, dayOfMonth ->
-                    selectedDate = "$dayOfMonth/${month + 1}/$year"
+                    // Create a Date object from the selected year, month, and day
+                    val selected = Date(year - 1900, month, dayOfMonth)
+                    // Format the selected date
+                    selectedDate = dateFormatter.format(selected)
                 }
             } }
         )
