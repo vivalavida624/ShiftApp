@@ -20,7 +20,7 @@ import java.util.*
 @Composable
 fun ShiftCard(shift: Shift, onUpdateShift: ((Shift) -> Unit)? = null) {
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-    var cardColor by remember { mutableStateOf(if (shift.status == "complete") Color(0xFF4CAF50) else Color.White) }
+    var cardColor by remember { mutableStateOf(if (shift.status == "complete") Color(0xFF4CAF50) else Color(0xFFF8F8F8)) } // 设置未完成状态下的背景颜色为浅灰色
     val statusColor = if (shift.status == "complete") Color.White else Color(0xFFF44336)
 
     var showDialog by remember { mutableStateOf(false) }
@@ -96,7 +96,7 @@ fun ShiftCard(shift: Shift, onUpdateShift: ((Shift) -> Unit)? = null) {
                 TextButton(
                     onClick = {
                         onUpdateShift?.invoke(shift.copy(status = "complete"))
-                        cardColor = Color(0xFF4CAF50)
+                        cardColor = Color(0xFF81C784)
                         showDialog = false
                     }
                 ) {
