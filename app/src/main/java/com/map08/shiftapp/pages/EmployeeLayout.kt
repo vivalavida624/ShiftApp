@@ -1,6 +1,7 @@
 package com.map08.shiftapp.pages
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -20,6 +21,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.map08.shiftapp.EmployeeNavItem
 import com.map08.shiftapp.LocalAuthViewModel
@@ -44,6 +46,7 @@ fun EmployeeHomePage() {
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
+                modifier = Modifier.height(60.dp), // 设置 TopAppBar 的高度
                 title = {
                     Text(text = "Employee", fontSize = 20.sp)
                 },
@@ -62,7 +65,9 @@ fun EmployeeHomePage() {
             )
         },
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                modifier = Modifier.height(65.dp) // 设置导航栏的高度
+            ) {
                 employeeNavItemList.forEachIndexed { index, employeeNavItem ->
                     NavigationBarItem(
                         selected = selectedIndex == index,
@@ -72,9 +77,7 @@ fun EmployeeHomePage() {
                         icon = {
                             Icon(imageVector = employeeNavItem.icon, contentDescription = "Icon")
                         },
-                        label = {
-                            Text(text = employeeNavItem.label)
-                        }
+                        alwaysShowLabel = false
                     )
                 }
             }
