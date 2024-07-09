@@ -27,8 +27,6 @@ import com.map08.shiftapp.LocalNavController
 import com.map08.shiftapp.R
 import com.map08.shiftapp.models.Employee
 import com.map08.shiftapp.utils.uploadImageToFirebase
-import java.util.*
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,65 +60,120 @@ fun CreateProfilePage() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Create Profile", fontSize = 32.sp, fontWeight = FontWeight.Bold, color = Color.White)
+        Text(
+            text = "Create Profile",
+            fontSize = 32.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            modifier = Modifier.padding(vertical = 16.dp)
+        )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = name, onValueChange = { name = it },
+            value = name,
+            onValueChange = { name = it },
             label = { Text("Name", color = Color.White) },
             textStyle = LocalTextStyle.current.copy(color = Color.White),
-            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.White,
+                cursorColor = Color.White
+            ),
+            modifier = Modifier.fillMaxWidth()
         )
+
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
-            value = age, onValueChange = { age = it },
+            value = age,
+            onValueChange = { age = it },
             label = { Text("Age", color = Color.White) },
             textStyle = LocalTextStyle.current.copy(color = Color.White),
-            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.White,
+                cursorColor = Color.White
+            ),
+            modifier = Modifier.fillMaxWidth()
         )
+
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
-            value = country, onValueChange = { country = it },
+            value = country,
+            onValueChange = { country = it },
             label = { Text("Country", color = Color.White) },
             textStyle = LocalTextStyle.current.copy(color = Color.White),
-            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.White,
+                cursorColor = Color.White
+            ),
+            modifier = Modifier.fillMaxWidth()
         )
+
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
-            value = city, onValueChange = { city = it },
+            value = city,
+            onValueChange = { city = it },
             label = { Text("City", color = Color.White) },
             textStyle = LocalTextStyle.current.copy(color = Color.White),
-            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.White,
+                cursorColor = Color.White
+            ),
+            modifier = Modifier.fillMaxWidth()
         )
+
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
-            value = hobbies, onValueChange = { hobbies = it },
+            value = hobbies,
+            onValueChange = { hobbies = it },
             label = { Text("Hobbies", color = Color.White) },
             textStyle = LocalTextStyle.current.copy(color = Color.White),
-            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.White,
+                cursorColor = Color.White
+            ),
+            modifier = Modifier.fillMaxWidth()
         )
+
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
-            value = email, onValueChange = { email = it },
+            value = email,
+            onValueChange = { email = it },
             label = { Text("Email", color = Color.White) },
             textStyle = LocalTextStyle.current.copy(color = Color.White),
-            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.White,
+                cursorColor = Color.White
+            ),
+            modifier = Modifier.fillMaxWidth()
         )
+
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
-            value = phone, onValueChange = { phone = it },
+            value = phone,
+            onValueChange = { phone = it },
             label = { Text("Phone", color = Color.White) },
             textStyle = LocalTextStyle.current.copy(color = Color.White),
-            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = Color.White)
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.White,
+                cursorColor = Color.White
+            ),
+            modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         if (profileImageUri != null) {
             Image(
@@ -128,7 +181,8 @@ fun CreateProfilePage() {
                 contentDescription = "Profile Image",
                 modifier = Modifier
                     .size(128.dp)
-                    .clip(RoundedCornerShape(100.dp))
+                    .clip(RoundedCornerShape(64.dp))
+                    .background(Color.Gray)
             )
         } else {
             Image(
@@ -136,17 +190,22 @@ fun CreateProfilePage() {
                 contentDescription = "Profile Image",
                 modifier = Modifier
                     .size(128.dp)
-                    .clip(RoundedCornerShape(100.dp))
+                    .clip(RoundedCornerShape(64.dp))
+                    .background(Color.Gray)
             )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = { launcher.launch("image/*") }) {
-            Text("Select Profile Image")
+        Button(
+            onClick = { launcher.launch("image/*") },
+            colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color(0XFF1976D2)),
+            modifier = Modifier.clip(RoundedCornerShape(12.dp))
+        ) {
+            Text(text = "Select Profile Image", fontSize = 16.sp, fontWeight = FontWeight.Medium)
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         Button(
             onClick = {
@@ -171,9 +230,13 @@ fun CreateProfilePage() {
                     navController.navigate("home")
                 }
             },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+            colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color(0XFF1976D2)),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .clip(RoundedCornerShape(12.dp))
         ) {
-            Text("Save", color = Color(0XFF1976D2))
+            Text(text = "Save", fontSize = 18.sp, fontWeight = FontWeight.Bold)
         }
     }
 }
