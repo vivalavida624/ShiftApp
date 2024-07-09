@@ -17,11 +17,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.map08.shiftapp.LocalAuthViewModel
 import com.map08.shiftapp.LocalNavController
 import com.map08.shiftapp.viewmodels.AuthState
-import com.map08.shiftapp.viewmodels.AuthViewModel
 import com.map08.shiftapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,7 +49,7 @@ fun ManagerLoginPage() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF1976D2))
+            .background(Color(0xFF0D47A1))  // 使用更深的蓝色背景
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -59,18 +57,20 @@ fun ManagerLoginPage() {
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "Login Image",
-            modifier = Modifier.size(200.dp)
+            modifier = Modifier
+                .size(150.dp)  // 调整 Logo 大小
+                .clip(RoundedCornerShape(12.dp)) // 添加圆角，使图像更美观
+                .background(Color.White) // 使用白色背景使 Logo 更明显
+                .padding(16.dp) // 添加内边距以提供一些空间
         )
 
         Text(
             text = "Manager Portal",
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.Yellow,
-            modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+            color = Color.White,  // 使用白色字体以更好地与背景对比
+            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )
-
-        Spacer(modifier = Modifier.height(86.dp))
 
         OutlinedTextField(
             value = email,
@@ -80,9 +80,13 @@ fun ManagerLoginPage() {
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.White,
                 unfocusedBorderColor = Color.White,
-                cursorColor = Color.White
+                cursorColor = Color.White,
+                focusedLabelColor = Color.White,
+                unfocusedLabelColor = Color.White
             ),
-            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+            modifier = Modifier
+                .fillMaxWidth(0.85f)  // 调整宽度，使其不占满整个屏幕
+                .padding(vertical = 8.dp)
         )
 
         OutlinedTextField(
@@ -93,22 +97,26 @@ fun ManagerLoginPage() {
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.White,
                 unfocusedBorderColor = Color.White,
-                cursorColor = Color.White
+                cursorColor = Color.White,
+                focusedLabelColor = Color.White,
+                unfocusedLabelColor = Color.White
             ),
-            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+            modifier = Modifier
+                .fillMaxWidth(0.85f)  // 调整宽度，使其不占满整个屏幕
+                .padding(vertical = 8.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))  // 增加间距
 
         Button(
             onClick = { authViewModel.login(email, password) },
             colors = ButtonDefaults.buttonColors(containerColor = Color.White),
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(0.85f)  // 调整宽度，使其不占满整个屏幕
                 .height(50.dp)
                 .clip(RoundedCornerShape(12.dp))
         ) {
-            Text(text = "Login", color = Color(0xFF1976D2), fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            Text(text = "Login", color = Color(0xFF0D47A1), fontSize = 18.sp, fontWeight = FontWeight.Bold)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -120,17 +128,14 @@ fun ManagerLoginPage() {
         ) {
             Text(text = "Don't have an account?", color = Color.White, fontSize = 14.sp)
             TextButton(onClick = { navController.navigate("manager-signup") }) {
-                Text(text = "Sign Up here", color = Color.Yellow, fontSize = 16.sp)
+                Text(text = "Sign Up here", color = Color.Yellow, fontSize = 16.sp, fontWeight = FontWeight.Bold)
             }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
-
-        Spacer(modifier = Modifier.height(8.dp))
-
         TextButton(onClick = { navController.navigate("login") }) {
-            Text(text = "Employee Login", color = Color.Yellow, fontSize = 18.sp)
+            Text(text = "Employee Login", color = Color.Yellow, fontSize = 18.sp, fontWeight = FontWeight.Bold)
         }
     }
 }
