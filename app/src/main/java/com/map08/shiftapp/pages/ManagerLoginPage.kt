@@ -122,7 +122,7 @@ fun ManagerLoginPage() {
         Spacer(modifier = Modifier.height(8.dp))
 
         TextButton(onClick = { navController.navigate("login") }) {
-            Text(text = "Go to Manager Portal", color = Color.White, fontSize = 14.sp)
+            Text(text = "Go to Employee Portal", color = Color.White, fontSize = 14.sp)
         }
     }
 }
