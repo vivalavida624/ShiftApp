@@ -119,18 +119,22 @@ class ShiftViewModel : ViewModel() {
             .whereLessThanOrEqualTo("endTime", endOfMonth)
             .get()
             .addOnSuccessListener { documents ->
-                val shiftList = documents.mapNotNull { document ->
+                val shifts = documents.mapNotNull { document ->
                     document.toObject(Shift::class.java).copy(id = document.id)
                 }
-                // Update the StateFlow with the fetched shifts
-                _allUsersShiftsForCurrentMonth.value = shiftList
-                Log.d("MyApp", "All users' shifts for current month retrieved: $shiftList")
+                // Sort the shifts by status and startTime
+                val sortedShifts = shifts.sortedWith(compareByDescending<Shift> { it.status == "complete" }.thenBy { it.startTime })
+                _allUsersShiftsForCurrentMonth.value = sortedShifts
+                Log.d("MyApp", "All users' shifts for current month retrieved and sorted: $sortedShifts")
             }
             .addOnFailureListener { e ->
                 _allUsersShiftsForCurrentMonth.value = emptyList()
                 Log.e("MyApp", "Error fetching all users' shifts for current month", e)
             }
     }
+
+
+
 
     // Function to fetch all shifts for all users
     fun fetchAllShiftsForAllUsers() {
