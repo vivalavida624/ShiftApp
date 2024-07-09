@@ -29,7 +29,7 @@ import com.map08.shiftapp.LocalNavController
 import com.map08.shiftapp.R
 
 @Composable
-fun EmployeeProfilePage() {
+fun EmployeeProfilePage(modifier: Modifier = Modifier) {
 
     val authViewModel = LocalAuthViewModel.current
     val employeeProfileViewModel = LocalEmployeeViewModel.current
@@ -38,11 +38,11 @@ fun EmployeeProfilePage() {
 
     if (employee != null) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .background(Color(0XFF1976D2))
-                .verticalScroll(rememberScrollState()) // 添加垂直滚动功能
-                .padding(top = 100.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
+                .verticalScroll(rememberScrollState())
+                .padding(top = 30.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -150,7 +150,7 @@ fun EmployeeProfilePage() {
         }
     } else {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator(color = Color.White)

@@ -1,14 +1,18 @@
 package com.map08.shiftapp.pages
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.map08.shiftapp.R
 import com.map08.shiftapp.models.Shift
 import java.text.SimpleDateFormat
 import java.util.*
@@ -16,7 +20,7 @@ import java.util.*
 @Composable
 fun ShiftCard(shift: Shift, onUpdateShift: ((Shift) -> Unit)? = null) {
     val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-    var cardColor by remember { mutableStateOf(if (shift.status == "complete") Color(0xFF4CAF50) else Color.White) }
+    var cardColor by remember { mutableStateOf(if (shift.status == "complete") Color(0xFF4CAF50) else Color(0xFFF8F8F8)) } // 设置未完成状态下的背景颜色为浅灰色
     val statusColor = if (shift.status == "complete") Color.White else Color(0xFFF44336)
 
     var showDialog by remember { mutableStateOf(false) }
@@ -67,8 +71,17 @@ fun ShiftCard(shift: Shift, onUpdateShift: ((Shift) -> Unit)? = null) {
                             .width(100.dp) // Adjust the width as needed
                             .height(36.dp)
                     ) {
-                        Text("Complete", color = Color.White, fontSize = 14.sp)
+                        Text("Done", color = Color.White, fontSize = 14.sp)
                     }
+                } else if (shift.status == "complete") {
+                    Image(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_stamp),
+                        contentDescription = "Stamp",
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .width(70.dp) // Adjust the width as needed
+                            .height(70.dp)
+                    )
                 }
             }
         }
@@ -83,7 +96,7 @@ fun ShiftCard(shift: Shift, onUpdateShift: ((Shift) -> Unit)? = null) {
                 TextButton(
                     onClick = {
                         onUpdateShift?.invoke(shift.copy(status = "complete"))
-                        cardColor = Color(0xFF4CAF50)
+                        cardColor = Color(0xFF81C784)
                         showDialog = false
                     }
                 ) {

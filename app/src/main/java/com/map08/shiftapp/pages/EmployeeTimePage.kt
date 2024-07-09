@@ -20,7 +20,7 @@ import com.map08.shiftapp.models.Shift
 import kotlinx.coroutines.launch
 
 @Composable
-fun EmployeeTimePage() {
+fun EmployeeTimePage(modifier: Modifier = Modifier) {
     var selectedDate by remember { mutableStateOf("") }
     val context = LocalContext.current
     val shiftViewModel = LocalShiftViewModel.current
@@ -29,7 +29,7 @@ fun EmployeeTimePage() {
     val db = FirebaseFirestore.getInstance()
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Color(0XFF1976D2)),
         verticalArrangement = Arrangement.Top,
@@ -64,7 +64,7 @@ fun EmployeeTimePage() {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White)
-                .padding(16.dp),
+                .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(shifts) { shift ->
