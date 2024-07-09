@@ -1,10 +1,13 @@
 package com.map08.shiftapp.pages
 
 import android.annotation.SuppressLint
+import android.app.TimePickerDialog
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,6 +16,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,13 +37,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.map08.shiftapp.LocalEmployeeViewModel
 import com.map08.shiftapp.LocalNavController
 import com.map08.shiftapp.R
+import com.map08.shiftapp.viewmodels.ShiftViewModel
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -116,35 +125,104 @@ fun EmployeeDetailPage(employeeId: String) {
         // 弹窗部分
         if (showDialog.value) {
             AssignShiftDialog(
+                employeeId = employeeId,
                 onDismiss = { showDialog.value = false },
-                onShiftSelected = { startTime, endTime ->
-                    // 处理选择的 shift，可以在这里进行相应的逻辑处理
-                    showDialog.value = false
-                }
+                onShiftAssigned = { showDialog.value = false }
             )
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AssignShiftDialog(
+    employeeId: String,
     onDismiss: () -> Unit,
-    onShiftSelected: (startTime: Date, endTime: Date) -> Unit
+    onShiftAssigned: () -> Unit
 ) {
+    // 用于保存用户选择的日期和时间
+    val context = LocalContext.current
+    val calendar = remember { Calendar.getInstance() }
+    val dateState = remember { mutableStateOf(calendar.time) }
+    val startTimeState = remember { mutableStateOf(calendar.time) }
+    val endTimeState = remember { mutableStateOf(calendar.time) }
+    val shiftViewModel: ShiftViewModel = viewModel() // 获取ViewModel实例
+
+    // 显示日期选择器
+    val datePickerDialog = android.app.DatePickerDialog(
+        context,
+        { _, year, month, dayOfMonth ->
+            calendar.set(year, month, dayOfMonth)
+            dateState.value = calendar.time
+        },
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH),
+        calendar.get(Calendar.DAY_OF_MONTH)
+    )
+
+    // 显示开始时间选择器
+    val startTimePickerDialog = TimePickerDialog(
+        context,
+        { _, hourOfDay, minute ->
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            calendar.set(Calendar.MINUTE, minute)
+            startTimeState.value = calendar.time
+        },
+        calendar.get(Calendar.HOUR_OF_DAY),
+        calendar.get(Calendar.MINUTE),
+        true
+    )
+
+    // 显示结束时间选择器
+    val endTimePickerDialog = TimePickerDialog(
+        context,
+        { _, hourOfDay, minute ->
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            calendar.set(Calendar.MINUTE, minute)
+            endTimeState.value = calendar.time
+        },
+        calendar.get(Calendar.HOUR_OF_DAY),
+        calendar.get(Calendar.MINUTE),
+        true
+    )
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("Assign Shift") },
+        text = {
+            Column {
+                Text("Date: ${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(dateState.value)}")
+                Button(onClick = { datePickerDialog.show() }) {
+                    Text("Select Date")
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text("Start Time: ${SimpleDateFormat("HH:mm", Locale.getDefault()).format(startTimeState.value)}")
+                Button(onClick = { startTimePickerDialog.show() }) {
+                    Text("Select Start Time")
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text("End Time: ${SimpleDateFormat("HH:mm", Locale.getDefault()).format(endTimeState.value)}")
+                Button(onClick = { endTimePickerDialog.show() }) {
+                    Text("Select End Time")
+                }
+            }
+        },
         confirmButton = {
             Button(
-                onClick = { /* 在此处处理选择 shift 的逻辑 */ },
+                onClick = {
+                    shiftViewModel.assignShift(employeeId, dateState.value, startTimeState.value, endTimeState.value)
+                    onShiftAssigned()
+                }
             ) {
                 Text("Assign")
             }
         },
         dismissButton = {
-            Button(
-                onClick = onDismiss,
-            ) {
+            Button(onClick = onDismiss) {
                 Text("Cancel")
             }
         }
