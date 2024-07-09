@@ -2,25 +2,16 @@ package com.map08.shiftapp.pages
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,6 +24,7 @@ import com.map08.shiftapp.viewmodels.AuthState
 import com.map08.shiftapp.viewmodels.AuthViewModel
 import com.map08.shiftapp.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManagerLoginPage() {
 
@@ -57,65 +49,80 @@ fun ManagerLoginPage() {
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF1976D2))
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.logo), contentDescription = "Login Image",
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "Login Image",
             modifier = Modifier.size(200.dp)
         )
 
-        Text(text = "Manager Portal", fontSize = 28.sp, fontWeight = FontWeight.Bold)
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Manager Portal",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            modifier = Modifier.padding(vertical = 16.dp)
+        )
 
         OutlinedTextField(
             value = email,
-            onValueChange = {
-                email = it
-            },
-            label = {
-                Text(text = "Email")
-            }
+            onValueChange = { email = it },
+            label = { Text(text = "Email", color = Color.White) },
+            textStyle = LocalTextStyle.current.copy(color = Color.White),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.White,
+                cursorColor = Color.White
+            ),
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
         )
-
-        Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
             value = password,
-            onValueChange = {
-                password = it
-            },
-            label = {
-                Text(text = "Password")
-            }
+            onValueChange = { password = it },
+            label = { Text(text = "Password", color = Color.White) },
+            textStyle = LocalTextStyle.current.copy(color = Color.White),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.White,
+                cursorColor = Color.White
+            ),
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
         )
+
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {
-            authViewModel.login(email, password)
-        }) {
-            Text(text = "Login")
-
+        Button(
+            onClick = { authViewModel.login(email, password) },
+            colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .clip(RoundedCornerShape(12.dp))
+        ) {
+            Text(text = "Login", color = Color(0xFF1976D2), fontSize = 18.sp, fontWeight = FontWeight.Bold)
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextButton(onClick = {
-            navController.navigate("manager-signup")
-        }) {
-            Text(text = "Don't have account, Signup")
+        TextButton(onClick = { navController.navigate("manager-signup") }) {
+            Text(text = "Don't have an account? Sign Up", color = Color.White, fontSize = 14.sp)
         }
 
-        Text(text = "OR")
+        Spacer(modifier = Modifier.height(8.dp))
 
-        TextButton(onClick = {
-            navController.navigate("login")
-        }) {
-            Text(text = "Go to Manager Portal")
+        Text(text = "OR", color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        TextButton(onClick = { navController.navigate("login") }) {
+            Text(text = "Go to Manager Portal", color = Color.White, fontSize = 14.sp)
         }
     }
 }
