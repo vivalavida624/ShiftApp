@@ -59,7 +59,7 @@ fun ManagerLoginPage() {
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "Login Image",
-            modifier = Modifier.size(250.dp)
+            modifier = Modifier.size(200.dp)
         )
 
         Text(
@@ -67,10 +67,10 @@ fun ManagerLoginPage() {
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Yellow,
-            modifier = Modifier.padding(vertical = 22.dp)
+            modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
         )
 
-        Spacer(modifier = Modifier.height(26.dp))
+        Spacer(modifier = Modifier.height(86.dp))
 
         OutlinedTextField(
             value = email,
@@ -111,20 +111,26 @@ fun ManagerLoginPage() {
             Text(text = "Login", color = Color(0xFF1976D2), fontSize = 18.sp, fontWeight = FontWeight.Bold)
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-        TextButton(onClick = { navController.navigate("manager-signup") }) {
-            Text(text = "Don't have an account? Sign Up here", color = Color.White, fontSize = 16.sp)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Don't have an account?", color = Color.White, fontSize = 14.sp)
+            TextButton(onClick = { navController.navigate("manager-signup") }) {
+                Text(text = "Sign Up here", color = Color.Yellow, fontSize = 16.sp)
+            }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Text(text = "OR", color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold)
 
         Spacer(modifier = Modifier.height(8.dp))
 
         TextButton(onClick = { navController.navigate("login") }) {
-            Text(text = "Employee Login", color = Color.White, fontSize = 16.sp)
+            Text(text = "Employee Login", color = Color.Yellow, fontSize = 18.sp)
         }
     }
 }
